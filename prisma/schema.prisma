@@ -1,0 +1,211 @@
+// Схема БД рекламного агентства. PostgreSQL. Контент — парні колонки *Uk / *Ru
+// (без JSON-сховища). Документація моделей — у README.md (розділ «Редагування контенту»).
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ── Адміністрування / автентифікація ───────────────────────────────
+
+enum AdminRole {
+  owner
+  editor
+}
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  login        String    @unique
+  passwordHash String
+  role         AdminRole @default(editor)
+  createdAt    DateTime  @default(now())
+  sessions     Session[]
+}
+
+model Session {
+  id          String    @id @default(cuid())
+  adminUser   AdminUser @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
+  adminUserId String
+  tokenHash   String    @unique // SHA-256 від випадкового токена, що лежить у cookie crm-auth
+  userAgent   String?
+  ip          String?
+  createdAt   DateTime  @default(now())
+  expiresAt   DateTime
+
+  @@index([adminUserId])
+  @@index([expiresAt])
+}
+
+// ── Контент публічного сайту ───────────────────────────────────────
+
+enum Placement {
+  tiktok
+  google
+  facebook
+  instagram
+  pinterest
+  telegram
+}
+
+model HeroBanner {
+  id        String    @id @default(cuid())
+  placement Placement
+  titleUk   String
+  titleRu   String
+  textUk    String
+  textRu    String
+  imageUrl  String?
+  order     Int       @default(0)
+  isActive  Boolean   @default(true)
+  updatedAt DateTime  @updatedAt
+
+  @@index([order])
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  nameUk    String
+  nameRu    String
+  roleUk    String
+  roleRu    String
+  photoUrl  String?
+  order     Int      @default(0)
+  updatedAt DateTime @updatedAt
+
+  @@index([order])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  imageUrl  String // скріншот з Telegram
+  authorUk  String?
+  authorRu  String?
+  order     Int      @default(0)
+  updatedAt DateTime @updatedAt
+
+  @@index([order])
+}
+
+enum NicheType {
+  white
+  grey
+}
+
+model Niche {
+  id            String    @id @default(cuid())
+  type          NicheType
+  nameUk        String
+  nameRu        String
+  descriptionUk String
+  descriptionRu String
+  order         Int       @default(0)
+  updatedAt     DateTime  @updatedAt
+
+  @@index([type, order])
+}
+
+model Case {
+  id           String   @id @default(cuid())
+  titleUk      String
+  titleRu      String
+  creoImageUrl String?
+  metricsUk    String // короткі цифри/підпис на банері (uk)
+  metricsRu    String
+  detailsUk    String // повна інфа у випадаючому меню (uk)
+  detailsRu    String
+  nicheUk      String
+  nicheRu      String
+  tgLink       String // кнопка «перейти в ТГ»
+  order        Int      @default(0)
+  isPublished  Boolean  @default(true)
+  updatedAt    DateTime @updatedAt
+
+  @@index([order])
+}
+
+model NewsPost {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  titleUk     String
+  titleRu     String
+  bodyUk      String
+  bodyRu      String
+  coverUrl    String?
+  isPublished Boolean  @default(true)
+  publishedAt DateTime @default(now())
+
+  @@index([publishedAt])
+}
+
+model Service {
+  id            String   @id @default(cuid())
+  titleUk       String
+  titleRu       String
+  descriptionUk String
+  descriptionRu String
+  icon          String? // ім'я іконки або URL
+  order         Int      @default(0)
+  updatedAt     DateTime @updatedAt
+
+  @@index([order])
+}
+
+model FaqItem {
+  id         String   @id @default(cuid())
+  questionUk String
+  questionRu String
+  answerUk   String
+  answerRu   String
+  order      Int      @default(0)
+  updatedAt  DateTime @updatedAt
+
+  @@index([order])
+}
+
+// Налаштування сайту (контакти ТГ-менеджера/каналу, дисклеймер цін,
+// тексти блоку «про нас» тощо). Редагується в адмінці за ключем.
+model SiteSetting {
+  key       String   @id // напр. "tg_manager", "tg_channel", "price_disclaimer", "about"
+  valueUk   String
+  valueRu   String
+  updatedAt DateTime @updatedAt
+}
+
+model MediaAsset {
+  id        String   @id @default(cuid())
+  url       String
+  type      String // "image" тощо
+  alt       String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+// ── Заявки з квіз-форми ────────────────────────────────────────────
+
+enum LeadStatus {
+  new
+  contacted
+  closed
+}
+
+model Lead {
+  id               String     @id @default(cuid())
+  niche            String // ніша та опис проєкту
+  projectDesc      String
+  projectLinks     String? // сайт / instagram / telegram
+  dailyBudget      String // орієнтовний бюджет/день (від $20)
+  hasActiveTraffic Boolean // чи є зараз активний трафік
+  contact          String // лінк у ТГ або номер телефону
+  locale           String // мова відвідувача (uk/ru)
+  sourcePage       String // зі сторінки (home/contacts)
+  status           LeadStatus @default(new)
+  createdAt        DateTime   @default(now())
+
+  @@index([createdAt])
+  @@index([status])
+}
