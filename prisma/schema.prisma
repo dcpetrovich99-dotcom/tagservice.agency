@@ -110,9 +110,11 @@ model Niche {
 
 model Case {
   id           String   @id @default(cuid())
+  category     String   @default("white") // підвкладка кейсів: "white" | "grey" (трафік). web-dev — у коді (PROJECTS).
   titleUk      String
   titleRu      String
   creoImageUrl String?
+  bannerUrl    String? // банер збоку для цього кейса (зображення або відео)
   metricsUk    String // короткі цифри/підпис на банері (uk)
   metricsRu    String
   detailsUk    String // повна інфа у випадаючому меню (uk)
@@ -124,7 +126,20 @@ model Case {
   isPublished  Boolean  @default(true)
   updatedAt    DateTime @updatedAt
 
+  @@index([category, order])
   @@index([order])
+}
+
+// Керовані в CMS банери для слотів: hero-банери вкладок (slot = "home",
+// "services", "cases", "white", "grey", "news", "contacts") та бічні банери
+// підвкладок кейсів ("cases:webdev", "cases:white", "cases:grey").
+// imageUrl може бути зображенням або відео (рендериться через SmartMedia).
+model PageBanner {
+  id        String   @id @default(cuid())
+  slot      String   @unique
+  imageUrl  String?
+  isActive  Boolean  @default(true)
+  updatedAt DateTime @updatedAt
 }
 
 model NewsPost {

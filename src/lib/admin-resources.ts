@@ -38,7 +38,45 @@ const PLACEMENTS = [
   "telegram",
 ].map((v) => ({ value: v, label: v }));
 
+const BANNER_SLOTS = [
+  { value: "home", label: "Головна — hero-банер" },
+  { value: "services", label: "Послуги — hero-банер" },
+  { value: "cases", label: "Кейси — hero-банер" },
+  { value: "white", label: "Білий трафік — hero-банер" },
+  { value: "grey", label: "Сірий трафік — hero-банер" },
+  { value: "news", label: "Новини — hero-банер" },
+  { value: "contacts", label: "Контакти — hero-банер" },
+  { value: "cases:webdev", label: "Кейси · підвкладка Розробка — бічний банер" },
+  { value: "cases:white", label: "Кейси · підвкладка Білий трафік — бічний банер" },
+  { value: "cases:grey", label: "Кейси · підвкладка Сірий трафік — бічний банер" },
+];
+
 export const RESOURCES: Resource[] = [
+  {
+    key: "banners",
+    model: "pageBanner",
+    title: "Банери вкладок",
+    listColumns: [
+      { name: "slot", label: "Слот" },
+      { name: "isActive", label: "Активний" },
+    ],
+    fields: [
+      {
+        name: "slot",
+        label: "Слот (де показувати)",
+        type: "select",
+        required: true,
+        options: BANNER_SLOTS,
+      },
+      {
+        name: "imageUrl",
+        label: "Банер (зображення або відео)",
+        type: "image",
+        help: "Перекриває частину заголовка вкладки. Завантажити файл — у розділі «Медіа».",
+      },
+      { name: "isActive", label: "Активний", type: "boolean" },
+    ],
+  },
   {
     key: "hero",
     model: "heroBanner",
@@ -122,16 +160,34 @@ export const RESOURCES: Resource[] = [
   {
     key: "cases",
     model: "case",
-    title: "Кейси",
+    title: "Кейси (трафік)",
     listColumns: [
+      { name: "category", label: "Підвкладка" },
       { name: "titleUk", label: "Назва (UK)" },
       { name: "nicheUk", label: "Ніша" },
       { name: "order", label: "№" },
     ],
     fields: [
+      {
+        name: "category",
+        label: "Підвкладка кейсів",
+        type: "select",
+        required: true,
+        options: [
+          { value: "white", label: "Білий трафік" },
+          { value: "grey", label: "Сірий трафік" },
+        ],
+        help: "Web-dev кейси (розробка) керуються у коді, не тут.",
+      },
       { name: "titleUk", label: "Назва (укр)", type: "text", required: true },
       { name: "titleRu", label: "Назва (рос)", type: "text", required: true },
       { name: "creoImageUrl", label: "Крео-зображення", type: "image" },
+      {
+        name: "bannerUrl",
+        label: "Бічний банер кейса (опційно)",
+        type: "image",
+        help: "Зображення/відео збоку від кейса.",
+      },
       { name: "metricsUk", label: "Цифри на банері (укр)", type: "text", required: true },
       { name: "metricsRu", label: "Цифри на банері (рос)", type: "text", required: true },
       { name: "detailsUk", label: "Деталі кейсу (укр)", type: "textarea", required: true },

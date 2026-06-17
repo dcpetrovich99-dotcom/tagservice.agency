@@ -1,10 +1,16 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import { Inter, Montserrat, Noto_Sans } from "next/font/google";
+import { Manrope, Unbounded, Montserrat } from "next/font/google";
 import "../globals.css";
 
-const inter = Inter({ subsets: ["latin", "cyrillic"], variable: "--font-inter" });
-const noto = Noto_Sans({ subsets: ["latin", "cyrillic"], variable: "--font-noto" });
+const manrope = Manrope({
+  subsets: ["latin", "cyrillic"],
+  variable: "--font-manrope",
+});
+const unbounded = Unbounded({
+  subsets: ["latin", "cyrillic"],
+  variable: "--font-unbounded",
+});
 const montserrat = Montserrat({
   subsets: ["latin", "cyrillic"],
   variable: "--font-montserrat",
@@ -23,7 +29,7 @@ export default function AdminRootLayout({
   return (
     <html
       lang="uk"
-      className={`${inter.variable} ${noto.variable} ${montserrat.variable}`}
+      className={`${manrope.variable} ${unbounded.variable} ${montserrat.variable}`}
     >
       <body>{children}</body>
     </html>

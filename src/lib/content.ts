@@ -96,6 +96,28 @@ export const getCases = (limit?: number) =>
     [] as Awaited<ReturnType<typeof prisma.case.findMany>>,
   );
 
+/** Кейси однієї підвкладки трафіку: "white" | "grey". */
+export const getCasesByCategory = (category: "white" | "grey") =>
+  safe(
+    () =>
+      prisma.case.findMany({
+        where: { isPublished: true, category },
+        orderBy: { order: "asc" },
+      }),
+    [] as Awaited<ReturnType<typeof prisma.case.findMany>>,
+  );
+
+export type BannerMap = Record<string, string>;
+
+/** Мапа slot→URL активних банерів (hero-банери вкладок + бічні банери кейсів). */
+export const getPageBanners = (): Promise<BannerMap> =>
+  safe(async () => {
+    const rows = await prisma.pageBanner.findMany({ where: { isActive: true } });
+    const map: BannerMap = {};
+    for (const r of rows) if (r.imageUrl) map[r.slot] = r.imageUrl;
+    return map;
+  }, {});
+
 export const getNews = (limit?: number) =>
   safe(
     () =>

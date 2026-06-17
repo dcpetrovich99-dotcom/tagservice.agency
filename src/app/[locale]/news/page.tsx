@@ -1,9 +1,9 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { isLocale } from "@/i18n/routing";
-import { getNews, pickL } from "@/lib/content";
+import { getNews, getPageBanners, pickL } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
-import SectionHeading from "@/components/SectionHeading";
+import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 
 export const dynamic = "force-dynamic";
@@ -19,13 +19,13 @@ export default async function NewsPage({
   const L = locale as "uk" | "ru";
 
   const t = await getTranslations("news");
-  const posts = await getNews();
+  const [posts, banners] = await Promise.all([getNews(), getPageBanners()]);
 
   return (
-    <div className="container-x section">
-      <SectionHeading title={t("title")} subtitle={t("subtitle")} />
-
-      <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <>
+      <PageHero title={t("title")} subtitle={t("subtitle")} bannerUrl={banners.news} />
+      <div className="container-x pb-16">
+      <div className="mt-2 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {posts.map((p, i) => (
           <Reveal key={p.id} delay={i * 0.04}>
             <Link
@@ -53,6 +53,7 @@ export default async function NewsPage({
           </p>
         )}
       </div>
-    </div>
+      </div>
+    </>
   );
 }

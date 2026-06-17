@@ -8,12 +8,19 @@ import { env } from "@/lib/env";
 
 export const runtime = "nodejs";
 
-const MAX = 6 * 1024 * 1024; // 6 MB
-const ALLOWED: Record<string, string> = {
+const MAX_IMAGE = 6 * 1024 * 1024; // 6 MB
+const MAX_VIDEO = 50 * 1024 * 1024; // 50 MB (інлайн-відео як «гіф»)
+
+const ALLOWED_IMAGE: Record<string, string> = {
   "image/jpeg": ".jpg",
   "image/png": ".png",
   "image/webp": ".webp",
   "image/gif": ".gif",
+};
+const ALLOWED_VIDEO: Record<string, string> = {
+  "video/mp4": ".mp4",
+  "video/webm": ".webm",
+  "video/quicktime": ".mov",
 };
 
 export async function POST(req: NextRequest) {
@@ -27,14 +34,21 @@ export async function POST(req: NextRequest) {
   if (!(file instanceof File)) {
     return NextResponse.json({ error: "no file" }, { status: 400 });
   }
-  if (file.size > MAX) {
-    return NextResponse.json({ error: "too large (max 6MB)" }, { status: 413 });
-  }
-  const ext = ALLOWED[file.type];
+
+  const isVideo = file.type in ALLOWED_VIDEO;
+  const ext = isVideo ? ALLOWED_VIDEO[file.type] : ALLOWED_IMAGE[file.type];
   if (!ext) {
     return NextResponse.json(
-      { error: "only jpg/png/webp/gif" },
+      { error: "only jpg/png/webp/gif or mp4/webm/mov" },
       { status: 415 },
+    );
+  }
+
+  const max = isVideo ? MAX_VIDEO : MAX_IMAGE;
+  if (file.size > max) {
+    return NextResponse.json(
+      { error: isVideo ? "too large (max 50MB)" : "too large (max 6MB)" },
+      { status: 413 },
     );
   }
 
@@ -47,11 +61,15 @@ export async function POST(req: NextRequest) {
   const url = `/uploads/${name}`;
   try {
     await prisma.mediaAsset.create({
-      data: { url, type: "image", alt: file.name.slice(0, 120) },
+      data: {
+        url,
+        type: isVideo ? "video" : "image",
+        alt: file.name.slice(0, 120),
+      },
     });
   } catch {
     /* запис у БД best-effort */
   }
 
-  return NextResponse.json({ ok: true, url });
+  return NextResponse.json({ ok: true, url, type: isVideo ? "video" : "image" });
 }

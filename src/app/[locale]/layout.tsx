@@ -7,21 +7,22 @@ import {
   getTranslations,
   setRequestLocale,
 } from "next-intl/server";
-import { Inter, Montserrat, Noto_Sans } from "next/font/google";
+import { Manrope, Unbounded, Montserrat } from "next/font/google";
 import { isLocale } from "@/i18n/routing";
 import { getSettings, contacts } from "@/lib/content";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Preloader from "@/components/Preloader";
 import "../globals.css";
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ["latin", "cyrillic"],
-  variable: "--font-inter",
+  variable: "--font-manrope",
   display: "swap",
 });
-const noto = Noto_Sans({
+const unbounded = Unbounded({
   subsets: ["latin", "cyrillic"],
-  variable: "--font-noto",
+  variable: "--font-unbounded",
   display: "swap",
 });
 const montserrat = Montserrat({
@@ -66,10 +67,11 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale}
-      className={`${inter.variable} ${noto.variable} ${montserrat.variable}`}
+      className={`${manrope.variable} ${unbounded.variable} ${montserrat.variable}`}
     >
       <body>
         <NextIntlClientProvider messages={messages}>
+          {process.env.DISABLE_PRELOADER !== "1" && <Preloader />}
           <div className="flex min-h-dvh flex-col">
             <Header />
             <main className="flex-1">{children}</main>

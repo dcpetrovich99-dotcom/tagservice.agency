@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Рекламне агентство — трафік під ключ",
-    "description": "Агентство перформанс-маркетингу: TikTok, Google, Facebook, Instagram, Pinterest, Telegram. Білий і сірий трафік, кейси, консультація."
+    "title": "TAG SERVICE — Performance marketing + custom dev",
+    "description": "TAG SERVICE — агенція перформанс-маркетингу і кастомної розробки. Трафік, CRM, SaaS, лендоси. Один контракт на весь стек."
   },
   "nav": {
     "home": "Головна",
@@ -36,6 +36,26 @@
     "faqTitle": "Часті запитання",
     "viewAllCases": "Усі кейси",
     "viewAllNews": "Усі новини"
+  },
+  "sections": {
+    "aboutKicker": "Про нас",
+    "servicesKicker": "Що ми робимо",
+    "servicesHeading": "Послуги — від крео до масштабування",
+    "projectsKicker": "Проєкти",
+    "projectsHeading": "Робота над проєктами — від А до Я",
+    "sitesKicker": "Розробка",
+    "sitesHeading": "Сайти, які ми робимо",
+    "sitesPlaceholder": "плейсхолдери — наповніть у адмінці / попросіть мене",
+    "statLaunches": "Запусків",
+    "statRoi": "Середній ROI",
+    "statTeam": "Команда",
+    "statPlacements": "Плейсментів",
+    "service": "Послуга",
+    "project": "Проєкт",
+    "placeholderServiceTitle": "Назва послуги — плейсхолдер",
+    "placeholderServiceText": "Опишіть послугу в адмінці → Послуги. Тут з'явиться текст із БД.",
+    "placeholderProjectTitle": "Назва проєкту — плейсхолдер",
+    "placeholderProjectText": "Заповніть деталі пізніше: ніша, метрики, скріни, лінк у Telegram."
   },
   "placements": {
     "tiktok": "TikTok",
@@ -80,6 +100,8 @@
     "subtitle": "Відповідайте на кілька питань — підготуємо прорахунок під ваш проєкт",
     "step": "Крок",
     "of": "з",
+    "next": "Далі",
+    "back": "Назад",
     "qNiche": "Ваша ніша та коротко про проєкт",
     "qNichePlaceholder": "Напр.: салон краси в Києві, послуги манікюру",
     "qLinks": "Посилання на проєкт (сайт / Instagram / Telegram)",

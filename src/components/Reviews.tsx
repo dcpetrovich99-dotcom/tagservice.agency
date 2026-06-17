@@ -1,4 +1,4 @@
-import Image from "next/image";
+import SmartMedia from "./SmartMedia";
 
 export default function Reviews({
   items,
@@ -17,7 +17,7 @@ export default function Reviews({
           className="card relative shrink-0 snap-start overflow-hidden"
           style={{ width: 260 }}
         >
-          <Image
+          <SmartMedia
             src={r.imageUrl}
             alt="Відгук клієнта"
             width={260}

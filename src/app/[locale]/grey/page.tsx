@@ -1,8 +1,9 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { isLocale } from "@/i18n/routing";
-import { getNiches, pickL } from "@/lib/content";
+import { getNiches, getPageBanners, pickL } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
+import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 
 export const dynamic = "force-dynamic";
@@ -19,7 +20,7 @@ export default async function GreyPage({
 
   const t = await getTranslations("grey");
   const tcommon = await getTranslations("common");
-  const niches = await getNiches("grey");
+  const [niches, banners] = await Promise.all([getNiches("grey"), getPageBanners()]);
 
   return (
     <div
@@ -30,12 +31,14 @@ export default async function GreyPage({
         color: "var(--text)",
       }}
     >
-      <div className="container-x section">
-        <span className="badge">{tcommon("ctaConsult")}</span>
-        <h1 className="h-display mt-4 text-4xl sm:text-5xl">{t("title")}</h1>
-        <p className="text-muted mt-4 max-w-2xl text-lg">{t("subtitle")}</p>
-
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <PageHero
+        kicker={tcommon("ctaConsult")}
+        title={t("title")}
+        subtitle={t("subtitle")}
+        bannerUrl={banners.grey}
+      />
+      <div className="container-x pb-16">
+        <div className="mt-2 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {niches.map((n, i) => (
             <Reveal key={n.id} delay={i * 0.04}>
               <div

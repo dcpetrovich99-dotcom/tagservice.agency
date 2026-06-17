@@ -1,0 +1,79 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import BrandMark from "./BrandMark";
+
+// Брендований прелоадер на ~2с: літачок «злітає», лого проявляється,
+// прогрес-смужка заповнюється, далі шторка їде вгору. Показується один
+// раз за повне завантаження сторінки (живе в layout, монтується раз).
+export default function Preloader() {
+  const [show, setShow] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => setShow(false), 2000);
+    document.documentElement.style.overflow = "hidden";
+    return () => {
+      clearTimeout(t);
+      document.documentElement.style.overflow = "";
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!show) document.documentElement.style.overflow = "";
+  }, [show]);
+
+  return (
+    <AnimatePresence>
+      {show && (
+        <motion.div
+          className="fixed inset-0 z-[200] flex flex-col items-center justify-center"
+          style={{ background: "#05060a" }}
+          initial={{ opacity: 1 }}
+          exit={{ y: "-100%" }}
+          transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
+        >
+          <div className="pointer-events-none absolute inset-0 -z-10">
+            <div className="absolute left-1/2 top-1/2 h-[40rem] w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(63,155,240,0.16),transparent_60%)] blur-3xl" />
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 14, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.5, ease: [0.2, 0.7, 0.2, 1] }}
+            className="flex flex-col items-center gap-5"
+          >
+            <motion.div
+              animate={{ y: [0, -8, 0], rotate: [0, 4, 0] }}
+              transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <BrandMark size={72} uniqueId="preloader" />
+            </motion.div>
+
+            <div className="flex items-baseline gap-2">
+              <span className="font-mono text-lg font-bold tracking-[0.08em] text-white">
+                TAG SERVICE
+              </span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.32em] text-[var(--text-muted)]">
+                AGENCY
+              </span>
+            </div>
+
+            <div className="mt-1 h-[3px] w-44 overflow-hidden rounded-full bg-white/10">
+              <motion.div
+                className="h-full rounded-full"
+                style={{
+                  background:
+                    "linear-gradient(90deg, #54d8f6, #4f6ff0, #7d54ec)",
+                }}
+                initial={{ width: "0%" }}
+                animate={{ width: "100%" }}
+                transition={{ duration: 1.85, ease: [0.3, 0.1, 0.2, 1] }}
+              />
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}

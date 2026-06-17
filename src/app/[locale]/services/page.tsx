@@ -1,9 +1,9 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { isLocale } from "@/i18n/routing";
-import { getServices, getSettings, pickL, setting } from "@/lib/content";
+import { getServices, getSettings, getPageBanners, pickL, setting } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
-import SectionHeading from "@/components/SectionHeading";
+import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 
 export const dynamic = "force-dynamic";
@@ -20,20 +20,22 @@ export default async function ServicesPage({
 
   const t = await getTranslations("services");
   const tcommon = await getTranslations("common");
-  const [services, settings] = await Promise.all([
+  const [services, settings, banners] = await Promise.all([
     getServices(),
     getSettings(),
+    getPageBanners(),
   ]);
 
   return (
-    <div className="container-x section">
-      <SectionHeading
+    <>
+      <PageHero
         kicker={tcommon("ctaConsult")}
         title={t("title")}
         subtitle={t("subtitle")}
+        bannerUrl={banners.services}
       />
-
-      <div className="mt-10 grid gap-5 sm:grid-cols-2">
+      <div className="container-x pb-16">
+      <div className="mt-2 grid gap-5 sm:grid-cols-2">
         {services.map((s, i) => (
           <Reveal key={s.id} delay={i * 0.05}>
             <div className="card h-full p-6">
@@ -67,6 +69,7 @@ export default async function ServicesPage({
           {tcommon("ctaConsult")}
         </Link>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

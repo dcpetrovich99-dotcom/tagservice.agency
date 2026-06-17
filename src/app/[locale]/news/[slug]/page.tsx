@@ -1,6 +1,6 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
-import Image from "next/image";
+import SmartMedia from "@/components/SmartMedia";
 import { isLocale } from "@/i18n/routing";
 import { getNewsBySlug, pickL } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
@@ -40,7 +40,7 @@ export default async function NewsPostPage({
 
       {post.coverUrl && (
         <div className="card mt-6 overflow-hidden">
-          <Image
+          <SmartMedia
             src={post.coverUrl}
             alt={pickL(post, "title", L)}
             width={900}

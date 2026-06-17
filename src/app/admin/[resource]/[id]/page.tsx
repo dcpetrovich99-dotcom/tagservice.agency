@@ -165,8 +165,8 @@ export default async function ResourceEditPage({
               )}
               {f.type === "image" && (
                 <span className="text-muted mt-1 block text-xs">
-                  Вставте URL. Завантажити файл і отримати URL — у розділі
-                  «Медіа».
+                  Вставте URL зображення або відео (mp4/webm — програється як
+                  гіф). Завантажити файл і отримати URL — у розділі «Медіа».
                 </span>
               )}
             </label>

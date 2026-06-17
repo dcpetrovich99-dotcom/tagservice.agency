@@ -1,9 +1,9 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { isLocale } from "@/i18n/routing";
-import { getSettings, contacts } from "@/lib/content";
+import { getSettings, getPageBanners, contacts } from "@/lib/content";
 import { managerHref } from "@/lib/telegram";
-import SectionHeading from "@/components/SectionHeading";
+import PageHero from "@/components/PageHero";
 import QuizForm from "@/components/QuizForm";
 
 export const dynamic = "force-dynamic";
@@ -18,14 +18,14 @@ export default async function ContactsPage({
   setRequestLocale(locale);
 
   const t = await getTranslations("contacts");
-  const settings = await getSettings();
+  const [settings, banners] = await Promise.all([getSettings(), getPageBanners()]);
   const c = contacts(settings);
 
   return (
-    <div className="container-x section">
-      <SectionHeading title={t("title")} subtitle={t("subtitle")} />
-
-      <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_1.1fr]">
+    <>
+      <PageHero title={t("title")} subtitle={t("subtitle")} bannerUrl={banners.contacts} />
+      <div className="container-x pb-16">
+      <div className="mt-2 grid gap-8 lg:grid-cols-[1fr_1.1fr]">
         <div className="flex flex-col gap-4">
           <a
             href={managerHref(c.manager)}
@@ -49,6 +49,7 @@ export default async function ContactsPage({
 
         <QuizForm sourcePage="contacts" />
       </div>
-    </div>
+      </div>
+    </>
   );
 }

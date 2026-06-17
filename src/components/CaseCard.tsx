@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import SmartMedia from "./SmartMedia";
 import { motion, AnimatePresence } from "framer-motion";
 
 export type CaseItem = {
@@ -31,7 +31,7 @@ export default function CaseCard({
     <div className="card overflow-hidden">
       <div className="relative aspect-[16/9] w-full" style={{ background: "var(--surface-2)" }}>
         {item.creoImageUrl ? (
-          <Image
+          <SmartMedia
             src={item.creoImageUrl}
             alt={item.title}
             fill

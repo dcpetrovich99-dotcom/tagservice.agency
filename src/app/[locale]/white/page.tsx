@@ -1,9 +1,9 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { isLocale } from "@/i18n/routing";
-import { getNiches, pickL } from "@/lib/content";
+import { getNiches, getPageBanners, pickL } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
-import SectionHeading from "@/components/SectionHeading";
+import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 
 export const dynamic = "force-dynamic";
@@ -20,13 +20,13 @@ export default async function WhitePage({
 
   const t = await getTranslations("white");
   const tcommon = await getTranslations("common");
-  const niches = await getNiches("white");
+  const [niches, banners] = await Promise.all([getNiches("white"), getPageBanners()]);
 
   return (
-    <div className="container-x section">
-      <SectionHeading title={t("title")} subtitle={t("subtitle")} />
-
-      <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <>
+      <PageHero kicker={tcommon("ctaConsult")} title={t("title")} subtitle={t("subtitle")} bannerUrl={banners.white} />
+      <div className="container-x pb-16">
+      <div className="mt-2 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {niches.map((n, i) => (
           <Reveal key={n.id} delay={i * 0.04}>
             <div className="card h-full p-6">
@@ -52,6 +52,7 @@ export default async function WhitePage({
           {tcommon("ctaConsult")}
         </Link>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

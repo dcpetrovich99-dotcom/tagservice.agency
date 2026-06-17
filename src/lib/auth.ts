@@ -56,7 +56,9 @@ export async function createSession(
     httpOnly: true,
     secure: env.isProd,
     sameSite: "strict",
-    path: "/admin",
+    // path "/" — щоб cookie слалось і на /admin/*, і на /api/admin/* (інакше
+    // API-роути аплоаду/експорту не бачать сесію → 401 unauthorized).
+    path: "/",
     expires: expiresAt,
   });
 }
@@ -106,7 +108,7 @@ export async function destroySession() {
       /* ignore */
     }
   }
-  c.set(COOKIE, "", { path: "/admin", maxAge: 0 });
+  c.set(COOKIE, "", { path: "/", maxAge: 0 });
 }
 
 // ── Rate-limit спроб входу (in-memory, на інстанс) ──────────────────
