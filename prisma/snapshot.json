@@ -1,0 +1,516 @@
+{
+  "heroBanner": [
+    {
+      "id": "cmpa6rb1d0001iwuiw0zoccyf",
+      "placement": "tiktok",
+      "titleUk": "TikTok Ads",
+      "titleRu": "TikTok Ads",
+      "textUk": "UGC-креативи та швидке тестування нових аудиторій.",
+      "textRu": "UGC-креативы и быстрый поиск новых аудиторий.",
+      "imageUrl": "/uploads/source/imported/1781710682720-a6d40ae0f5b9.png",
+      "order": 0,
+      "isActive": true
+    },
+    {
+      "id": "cmpa6rb1d0002iwuixslujs6o",
+      "placement": "google",
+      "titleUk": "Google Ads",
+      "titleRu": "Google Ads",
+      "textUk": "Пошук клієнтів у момент їхнього запиту",
+      "textRu": "Поиск клиентов в момент их запроса",
+      "imageUrl": "/uploads/source/imported/1781710832012-960323a9de92.png",
+      "order": -2,
+      "isActive": true
+    },
+    {
+      "id": "cmpa6rb1d0003iwuiyqyfz0o5",
+      "placement": "facebook",
+      "titleUk": "Meta Ads",
+      "titleRu": "Meta Ads",
+      "textUk": "Facebook та Instagram для стабільного швидкого росту бізнесу",
+      "textRu": "Facebook и Instagram для стабильного и быстрого роста бизнеса",
+      "imageUrl": "/uploads/source/imported/1781710970361-7fb3a081ff3d.png",
+      "order": 2,
+      "isActive": true
+    },
+    {
+      "id": "cmpa6rb1d0004iwuid7ndcmtc",
+      "placement": "instagram",
+      "titleUk": "Website Development",
+      "titleRu": "Website Development",
+      "textUk": "Розробка лендінгів, повноцінних вебсайтів, CRM-систем та SaaS продуктів",
+      "textRu": "Разработка лендингов, полноценных вебсайтов, CRM-систем и SaaS продуктов.",
+      "imageUrl": "/uploads/source/imported/1781711416333-687e2732d662.png",
+      "order": 3,
+      "isActive": true
+    },
+    {
+      "id": "cmpa6rb1d0005iwuio4ajqal1",
+      "placement": "pinterest",
+      "titleUk": "Creative Studio",
+      "titleRu": "Creative Studio",
+      "textUk": "Статика, відео та motion-дизайн.",
+      "textRu": "Статика, видео и motion-дизайн.",
+      "imageUrl": "/uploads/source/imported/1781712853182-263101f9f926.png",
+      "order": 4,
+      "isActive": true
+    },
+    {
+      "id": "cmpa6rb1d0006iwui1jfljbjq",
+      "placement": "telegram",
+      "titleUk": "Telegram Ecosystem",
+      "titleRu": "Telegram Ecosystem",
+      "textUk": "Telegram як окрема екосистема продажів: розсилки та ADS",
+      "textRu": "Telegram как отдельная экосистема продаж: рассылки и ADS",
+      "imageUrl": "/uploads/source/imported/1781713096659-d850e375f005.png",
+      "order": 5,
+      "isActive": true
+    }
+  ],
+  "teamMember": [
+    {
+      "id": "cmpa6rb1m0007iwuifabqzpt1",
+      "nameUk": "Учасник команди",
+      "nameRu": "Участник команды",
+      "roleUk": "Дизайнер",
+      "roleRu": "Дизайнер",
+      "photoUrl": "/uploads/source/imported/team-0-1781544176833-91cb29.png",
+      "order": 0
+    },
+    {
+      "id": "cmpa6rb1m0008iwuio2c2s7op",
+      "nameUk": "Учасник команди",
+      "nameRu": "Участник команды",
+      "roleUk": "Проджект-менеджер",
+      "roleRu": "Проджект-менеджер",
+      "photoUrl": "/uploads/source/imported/team-1-1781544195537-2774a2.png",
+      "order": 1
+    },
+    {
+      "id": "cmpa6rb1m0009iwuiok4ae5f6",
+      "nameUk": "Учасник команди",
+      "nameRu": "Участник команды",
+      "roleUk": "Бізнес-аналітик",
+      "roleRu": "Бизнес-аналитик",
+      "photoUrl": "/uploads/source/imported/team-2-1781544212548-81f785.png",
+      "order": 2
+    },
+    {
+      "id": "cmpa6rb1m000aiwui3igpp561",
+      "nameUk": "Учасник команди",
+      "nameRu": "Участник команды",
+      "roleUk": "Ризик-менеджер",
+      "roleRu": "Риск-менеджер",
+      "photoUrl": "/uploads/source/imported/team-3-1781544228437-f3c000.png",
+      "order": 3
+    },
+    {
+      "id": "cmpa6rb1m000biwuixshfyzb0",
+      "nameUk": "Учасник команди",
+      "nameRu": "Участник команды",
+      "roleUk": "Таргетолог",
+      "roleRu": "Таргетолог",
+      "photoUrl": "/uploads/source/imported/team-4-1781544245686-c8ab3e.png",
+      "order": 4
+    },
+    {
+      "id": "cmpa6rb1m000ciwuiy07a98f6",
+      "nameUk": "Учасник команди",
+      "nameRu": "Участник команды",
+      "roleUk": "Таргетолог",
+      "roleRu": "Таргетолог",
+      "photoUrl": "/uploads/source/imported/team-5-1781544264041-481f5a.png",
+      "order": 5
+    },
+    {
+      "id": "cmpa6rb1m000diwuibsznx8ha",
+      "nameUk": "Учасник команди",
+      "nameRu": "Участник команды",
+      "roleUk": "Таргетолог",
+      "roleRu": "Таргетолог",
+      "photoUrl": "/uploads/source/imported/team-6-1781544279919-61cea5.png",
+      "order": 6
+    },
+    {
+      "id": "cmpa6rb1m000eiwuihf7q0ijn",
+      "nameUk": "Учасник команди",
+      "nameRu": "Участник команды",
+      "roleUk": "Google медіабаєр",
+      "roleRu": "Google медиабайер",
+      "photoUrl": "/uploads/source/imported/team-7-1781544298864-1bec1e.png",
+      "order": 7
+    },
+    {
+      "id": "cmpa6rb1m000fiwuig74dibex",
+      "nameUk": "Учасник команди",
+      "nameRu": "Участник команды",
+      "roleUk": "Розробник софтів і скриптів",
+      "roleRu": "Разработчик софтов и скриптов",
+      "photoUrl": "/uploads/source/imported/team-8-1781544314640-3a9cc3.png",
+      "order": 8
+    },
+    {
+      "id": "cmpa6rb1m000giwuivo6p5zkb",
+      "nameUk": "Учасник команди",
+      "nameRu": "Участник команды",
+      "roleUk": "Вайбкодер",
+      "roleRu": "Вайбкодер",
+      "photoUrl": "/uploads/source/imported/team-9-1781544330932-81213c.png",
+      "order": 9
+    },
+    {
+      "id": "cmpa6rb1m000hiwuivxs6k15h",
+      "nameUk": "Учасник команди",
+      "nameRu": "Участник команды",
+      "roleUk": "ШІ-аналітик",
+      "roleRu": "ИИ-аналитик",
+      "photoUrl": "/uploads/source/imported/team-10-1781544348625-f252f4.png",
+      "order": 10
+    }
+  ],
+  "review": [
+    {
+      "id": "cmqfksbhb00039wui9l37rch6",
+      "imageUrl": "/uploads/source/reviews/review-0.png",
+      "authorUk": null,
+      "authorRu": null,
+      "order": 0
+    },
+    {
+      "id": "cmqfksbhd00049wui20as8de5",
+      "imageUrl": "/uploads/source/reviews/review-1.png",
+      "authorUk": null,
+      "authorRu": null,
+      "order": 1
+    },
+    {
+      "id": "cmqfksbhf00059wui6r1s4a4j",
+      "imageUrl": "/uploads/source/reviews/review-2.png",
+      "authorUk": null,
+      "authorRu": null,
+      "order": 2
+    },
+    {
+      "id": "cmqfksbhg00069wuiw7ap7o3p",
+      "imageUrl": "/uploads/source/reviews/review-3.png",
+      "authorUk": null,
+      "authorRu": null,
+      "order": 3
+    }
+  ],
+  "niche": [
+    {
+      "id": "cmpa6rb1y000iiwuiiqhhaimh",
+      "type": "white",
+      "nameUk": "Салони краси",
+      "nameRu": "Салоны красоты",
+      "descriptionUk": "Опис ніші заповніть в адмінці → Ніші.",
+      "descriptionRu": "Описание ниши заполните в админке → Ниши.",
+      "order": 0
+    },
+    {
+      "id": "cmpa6rb1z000jiwuifqsgt731",
+      "type": "white",
+      "nameUk": "Юридичні послуги",
+      "nameRu": "Юридические услуги",
+      "descriptionUk": "Опис ніші заповніть в адмінці → Ніші.",
+      "descriptionRu": "Описание ниши заполните в админке → Ниши.",
+      "order": 1
+    },
+    {
+      "id": "cmpa6rb1z000kiwui7k1a1ya9",
+      "type": "white",
+      "nameUk": "Візові послуги",
+      "nameRu": "Визовые услуги",
+      "descriptionUk": "Опис ніші заповніть в адмінці → Ніші.",
+      "descriptionRu": "Описание ниши заполните в админке → Ниши.",
+      "order": 2
+    },
+    {
+      "id": "cmpa6rb1z000liwui9qzobhgp",
+      "type": "white",
+      "nameUk": "Додатки для знайомств",
+      "nameRu": "Приложения для знакомств",
+      "descriptionUk": "Опис ніші заповніть в адмінці → Ніші.",
+      "descriptionRu": "Описание ниши заполните в админке → Ниши.",
+      "order": 3
+    },
+    {
+      "id": "cmpa6rb1z000miwuivfpxpari",
+      "type": "white",
+      "nameUk": "Ресторани та кафе",
+      "nameRu": "Рестораны и кафе",
+      "descriptionUk": "Опис ніші заповніть в адмінці → Ніші.",
+      "descriptionRu": "Описание ниши заполните в админке → Ниши.",
+      "order": 4
+    },
+    {
+      "id": "cmpa6rb1z000niwuiz834x777",
+      "type": "white",
+      "nameUk": "Автосалони та пригон авто",
+      "nameRu": "Автосалоны и пригон авто",
+      "descriptionUk": "Опис ніші заповніть в адмінці → Ніші.",
+      "descriptionRu": "Описание ниши заполните в админке → Ниши.",
+      "order": 5
+    },
+    {
+      "id": "cmpa6rb1z000oiwuii4nday9f",
+      "type": "grey",
+      "nameUk": "Ескорт",
+      "nameRu": "Эскорт",
+      "descriptionUk": "Опис заповніть в адмінці → Ніші (тип grey).",
+      "descriptionRu": "Описание заполните в админке → Ниши (тип grey).",
+      "order": 0
+    },
+    {
+      "id": "cmpa6rb1z000piwui9th1bxse",
+      "type": "grey",
+      "nameUk": "Крипта",
+      "nameRu": "Крипта",
+      "descriptionUk": "Опис заповніть в адмінці → Ніші (тип grey).",
+      "descriptionRu": "Описание заполните в админке → Ниши (тип grey).",
+      "order": 1
+    },
+    {
+      "id": "cmpa6rb1z000qiwuigowi2zjy",
+      "type": "grey",
+      "nameUk": "Кур'єри",
+      "nameRu": "Курьеры",
+      "descriptionUk": "Опис заповніть в адмінці → Ніші (тип grey).",
+      "descriptionRu": "Описание заполните в админке → Ниши (тип grey).",
+      "order": 2
+    },
+    {
+      "id": "cmpa6rb1z000riwui1qlbxl42",
+      "type": "grey",
+      "nameUk": "Табачка",
+      "nameRu": "Табачка",
+      "descriptionUk": "Опис заповніть в адмінці → Ніші (тип grey).",
+      "descriptionRu": "Описание заполните в админке → Ниши (тип grey).",
+      "order": 3
+    },
+    {
+      "id": "cmpa6rb1z000siwuixe54ox0l",
+      "type": "grey",
+      "nameUk": "Схемний трафік",
+      "nameRu": "Схемный трафик",
+      "descriptionUk": "Опис заповніть в адмінці → Ніші (тип grey).",
+      "descriptionRu": "Описание заполните в админке → Ниши (тип grey).",
+      "order": 4
+    },
+    {
+      "id": "cmpa6rb1z000tiwuisz9vazvd",
+      "type": "grey",
+      "nameUk": "Офіс",
+      "nameRu": "Офис",
+      "descriptionUk": "Опис заповніть в адмінці → Ніші (тип grey).",
+      "descriptionRu": "Описание заполните в админке → Ниши (тип grey).",
+      "order": 5
+    },
+    {
+      "id": "cmpa6rb1z000uiwui1voassh1",
+      "type": "grey",
+      "nameUk": "Дропи на банки",
+      "nameRu": "Дропы на банки",
+      "descriptionUk": "Опис заповніть в адмінці → Ніші (тип grey).",
+      "descriptionRu": "Описание заполните в админке → Ниши (тип grey).",
+      "order": 6
+    }
+  ],
+  "case": [
+    {
+      "id": "cmpa6rb2n0010iwui3g6b06dx",
+      "category": "white",
+      "titleUk": "Кейс #1 (заглушка)",
+      "titleRu": "Кейс #1 (заглушка)",
+      "creoImageUrl": null,
+      "bannerUrl": null,
+      "metricsUk": "ROI 180% · 30 днів",
+      "metricsRu": "ROI 180% · 30 дней",
+      "detailsUk": "Деталі кейсу заповніть в адмінці → Кейси.",
+      "detailsRu": "Детали кейса заполните в админке → Кейсы.",
+      "nicheUk": "Приклад ніші",
+      "nicheRu": "Пример ниши",
+      "tgLink": "https://t.me/your_manager",
+      "order": 0,
+      "isPublished": true
+    }
+  ],
+  "newsPost": [
+    {
+      "id": "cmpa6rb2t0011iwui3qho3uu7",
+      "slug": "welcome",
+      "titleUk": "Перша новина (заглушка)",
+      "titleRu": "Первая новость (заглушка)",
+      "bodyUk": "Текст новини редагується в адмінці → Новини.",
+      "bodyRu": "Текст новости редактируется в админке → Новости.",
+      "coverUrl": null,
+      "isPublished": true,
+      "publishedAt": "2026-05-17T19:46:22.037Z"
+    },
+    {
+      "id": "cmqfksbc500009wuicc9q7man",
+      "slug": "tiktok-bans-2026",
+      "titleUk": "TikTok-бани літа 2026: що змінилось у антифрод-системі",
+      "titleRu": "TikTok-баны лета 2026: что изменилось в антифрод-системе",
+      "bodyUk": "Останні два тижні аккаунт-фарм у TikTok став помітно нестабільнішим: модерація почала ретельніше валідувати поведінкові сигнали в першу годину після створення. Розповідаємо, які антибан-практики ще працюють: прогрів через UGC-перегляди, унікальні fingerprint-проксі під регіон, повільне нарощування рекламного бюджету.",
+      "bodyRu": "Последние две недели аккаунт-фарм в TikTok стал заметно нестабильнее: модерация начала тщательнее валидировать поведенческие сигналы в первый час после создания. Рассказываем, какие антибан-практики ещё работают: прогрев через UGC-просмотры, уникальные fingerprint-прокси под регион, медленное наращивание рекламного бюджета.",
+      "coverUrl": "/uploads/source/news/news-tiktok-bans.png",
+      "isPublished": true,
+      "publishedAt": "2026-06-15T18:57:36.870Z"
+    },
+    {
+      "id": "cmqfksbh100019wuir80gbpjb",
+      "slug": "google-pmax-shifts-2026",
+      "titleUk": "Google Performance Max: ШІ-таргетинг навчився Cyrillic-аудиторій",
+      "titleRu": "Google Performance Max: ИИ-таргетинг научился Cyrillic-аудиториям",
+      "bodyUk": "До червня 2026 PMax відверто провалювався на UA/RU нішах через мовну невизначеність. Тепер автотаргетинг розрізняє регіони і подачу — ROAS у наших білих нішах виріс у середньому на 38%. Розбираємо, як готувати фід і креативи під новий алгоритм.",
+      "bodyRu": "До июня 2026 PMax откровенно проваливался на UA/RU нишах из-за языковой неопределённости. Теперь автотаргетинг различает регионы и подачу — ROAS в наших белых нишах вырос в среднем на 38%. Разбираем, как готовить фид и креативы под новый алгоритм.",
+      "coverUrl": "/uploads/source/news/news-google-pmax.png",
+      "isPublished": true,
+      "publishedAt": "2026-06-15T18:57:37.045Z"
+    },
+    {
+      "id": "cmqfksbh300029wui80gudnu0",
+      "slug": "telegram-ads-2026",
+      "titleUk": "Telegram Ads: ставки впали, поріг входу — теж",
+      "titleRu": "Telegram Ads: ставки упали, порог входа — тоже",
+      "bodyUk": "Telegram Ads нарешті відкрив self-serve кабінет із порогом $10 та мінімальною CPM від €0.5. Сегментуємо по каналах та інтересах, дотягуємо retention через TG-розсилки. На пілотних запусках у CIS-аудиторії — CPL у 3-4× нижчий за Meta при тому ж бюджеті.",
+      "bodyRu": "Telegram Ads наконец открыл self-serve кабинет с порогом $10 и минимальной CPM от €0.5. Сегментируем по каналам и интересам, дотягиваем retention через TG-рассылки. На пилотных запусках в CIS-аудитории — CPL в 3-4× ниже Meta при том же бюджете.",
+      "coverUrl": "/uploads/source/news/news-telegram-ads.png",
+      "isPublished": true,
+      "publishedAt": "2026-06-15T18:57:37.047Z"
+    }
+  ],
+  "service": [
+    {
+      "id": "cmpa6rb29000viwui8bwnwvhb",
+      "titleUk": "Налаштування рекламних кампаній",
+      "titleRu": "Настройка рекламных кампаний",
+      "descriptionUk": "Запуск і ведення кампаній по плейсментах. Відредагуйте в адмінці → Послуги.",
+      "descriptionRu": "Запуск и ведение кампаний по плейсментам. Отредактируйте в админке → Услуги.",
+      "icon": "01",
+      "order": 0
+    },
+    {
+      "id": "cmpa6rb29000wiwuil07bdej9",
+      "titleUk": "Креативи та контент",
+      "titleRu": "Креативы и контент",
+      "descriptionUk": "Виробництво крео під різні ніші.",
+      "descriptionRu": "Производство крео под разные ниши.",
+      "icon": "02",
+      "order": 1
+    },
+    {
+      "id": "cmpa6rb29000xiwuimc449wce",
+      "titleUk": "Аналітика та масштабування",
+      "titleRu": "Аналитика и масштабирование",
+      "descriptionUk": "Наскрізна аналітика і вихід у плюс.",
+      "descriptionRu": "Сквозная аналитика и выход в плюс.",
+      "icon": "03",
+      "order": 2
+    }
+  ],
+  "faqItem": [
+    {
+      "id": "cmpa6rb2g000yiwuir6ointn7",
+      "questionUk": "Скільки коштують ваші послуги?",
+      "questionRu": "Сколько стоят ваши услуги?",
+      "answerUk": "Кожен проєкт — окремий прорахунок. Лишайте заявку.",
+      "answerRu": "Каждый проект — отдельный просчёт. Оставляйте заявку.",
+      "order": 0
+    },
+    {
+      "id": "cmpa6rb2h000ziwuie310dx4c",
+      "questionUk": "З якими плейсментами працюєте?",
+      "questionRu": "С какими плейсментами работаете?",
+      "answerUk": "TikTok, Google, Facebook, Instagram, Pinterest, Telegram.",
+      "answerRu": "TikTok, Google, Facebook, Instagram, Pinterest, Telegram.",
+      "order": 1
+    }
+  ],
+  "siteSetting": [
+    {
+      "key": "tg_channel",
+      "valueUk": "https://t.me/your_channel",
+      "valueRu": "https://t.me/your_channel"
+    },
+    {
+      "key": "price_disclaimer",
+      "valueUk": "Ціни ми навмисно не виставляли на сайті — кожен проєкт це окремий прорахунок і окремий прайс під різні випадки. Орієнтовну суму назвати могли б, але це був би хибний орієнтир для вас. Тому лишайте заявку — і ми проконсультуємо.",
+      "valueRu": "Цены мы намеренно не выставляли на сайте — каждый проект это отдельный просчёт и отдельный прайс под разные случаи. Ориентировочную сумму назвать могли бы, но это был бы ложный ориентир для вас. Поэтому оставляйте заявку — и мы проконсультируем."
+    },
+    {
+      "key": "tg_manager",
+      "valueUk": "https://t.me/tag_support",
+      "valueRu": "https://t.me/tag_service_traffic"
+    },
+    {
+      "key": "about",
+      "valueUk": "Ми — команда перформанс-маркетингу.\r\nЗапускаємо рекламу, яка приносить клієнтів та прибуток.\r\nСтворюємо сайти та сервіси, які продають.\r\nАналізуємо, тестуємо, масштабуємо — ви отримуєте результат.",
+      "valueRu": "Мы — команда перформанс-маркетинга.\r\nЗапускаем рекламу, которая приносит клиентов и прибыль.\r\nСоздаём сайты и сервисы, которые продают.\r\nАнализируем, тестируем, масштабируем — вы получаете результат."
+    }
+  ],
+  "pageBanner": [
+    {
+      "id": "cmqiabyyp0001u4ui6ncn832e",
+      "slot": "services",
+      "imageUrl": null,
+      "isActive": true
+    },
+    {
+      "id": "cmqiabyyv0003u4uiiu9i69x2",
+      "slot": "white",
+      "imageUrl": null,
+      "isActive": true
+    },
+    {
+      "id": "cmqiabyyy0004u4uivs4mdl11",
+      "slot": "grey",
+      "imageUrl": null,
+      "isActive": true
+    },
+    {
+      "id": "cmqiabyz00005u4uia50snhxd",
+      "slot": "news",
+      "imageUrl": null,
+      "isActive": true
+    },
+    {
+      "id": "cmqiabyz30006u4uicuy0oojh",
+      "slot": "contacts",
+      "imageUrl": null,
+      "isActive": true
+    },
+    {
+      "id": "cmqiabyz80008u4uibyqw4i1f",
+      "slot": "cases:white",
+      "imageUrl": null,
+      "isActive": true
+    },
+    {
+      "id": "cmqiabyzc0009u4uilrog2yd6",
+      "slot": "cases:grey",
+      "imageUrl": null,
+      "isActive": true
+    },
+    {
+      "id": "cmqiabyyt0002u4ui5q2ov3l1",
+      "slot": "cases",
+      "imageUrl": null,
+      "isActive": true
+    },
+    {
+      "id": "cmqiabyz50007u4uieso7swx6",
+      "slot": "cases:webdev",
+      "imageUrl": null,
+      "isActive": true
+    },
+    {
+      "id": "cmqiabyy20000u4uimpexgks6",
+      "slot": "home",
+      "imageUrl": null,
+      "isActive": true
+    }
+  ]
+}
