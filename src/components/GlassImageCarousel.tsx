@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import SmartMedia from "./SmartMedia";
 
 type CarouselItem = {
@@ -34,20 +34,18 @@ const PLACEHOLDERS: CarouselItem[] = [
   },
 ];
 
-// Картки тепер квадратніші + з фізичною товщиною (≈ 3-4 мм на екрані).
+// Картки квадратніші + з фізичною товщиною (≈ 3-4 мм на екрані).
 const CARD_W = 290;
 const CARD_H = 320;
 const CARD_RADIUS = 22;
-// Товщина «плити» картки. Набирається стосом тонких силуетів, тому
-// заокруглені кути не «вилазять» по краях, як було б у плоских гранях.
 const DEPTH = 18;
 const RIM_LAYERS = 12;
 
 /**
- * 3D-центрифуга з карток. Не слайдшоу — обертається безперервно по колу.
- * Mouse-move прискорює/сповільнює обертання залежно від положення курсора
- * по X. Кожна картка — обʼємна плита: лицьова грань + дзеркальна задня +
- * стос силуетів між ними, що формує товстий бічний кант.
+ * Десктоп — 3D-центрифуга (важка: rAF + preserve-3d + backdrop-filter).
+ * Мобайл/тач — легка нативна scroll-snap карусель БЕЗ rAF/3D/blur, щоб не
+ * лагало й не вилітало. Перемикання за media-query (після маунта), тому
+ * на мобілці важкий компонент взагалі не монтується.
  */
 export default function GlassImageCarousel({
   items,
@@ -58,6 +56,66 @@ export default function GlassImageCarousel({
     () => (items.length > 0 ? items : PLACEHOLDERS),
     [items],
   );
+
+  const [is3D, setIs3D] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px) and (pointer: fine)");
+    const update = () => setIs3D(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  if (!is3D) return <MobileCarousel slides={slides} />;
+  return <Carousel3D slides={slides} />;
+}
+
+/* ─────────────────────────── Мобільна версія ─────────────────────────── */
+
+function MobileCarousel({ slides }: { slides: CarouselItem[] }) {
+  return (
+    <div className="relative w-full">
+      <div className="-mx-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-4 pt-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {slides.map((item, i) => {
+          const fallback = FALLBACKS[i % FALLBACKS.length];
+          return (
+            <article
+              key={i}
+              className="relative aspect-[3/4] w-[74vw] max-w-[280px] shrink-0 snap-center overflow-hidden rounded-2xl border border-white/12"
+              style={{ background: "var(--surface-2)" }}
+            >
+              <div className="absolute inset-0">
+                {item.imageUrl ? (
+                  <SmartMedia
+                    src={item.imageUrl}
+                    alt=""
+                    fill
+                    sizes="74vw"
+                    priority={i < 2}
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="h-full w-full" style={{ background: fallback }} />
+                )}
+              </div>
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,7,17,0.05),rgba(3,7,17,0.82))]" />
+              <div className="absolute inset-x-4 bottom-4">
+                <h3 className="h-display text-xl text-white">{item.title}</h3>
+                <p className="mt-1.5 line-clamp-2 text-sm leading-5 text-cyan-50/70">
+                  {item.text}
+                </p>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────── Десктоп 3D ─────────────────────────── */
+
+function Carousel3D({ slides }: { slides: CarouselItem[] }) {
   const N = slides.length;
   const angleStep = 360 / Math.max(N, 1);
   const radius = useMemo(() => {
@@ -74,7 +132,6 @@ export default function GlassImageCarousel({
   useEffect(() => {
     let raf = 0;
     const tick = () => {
-      // Мʼякший lerp → плавніший розгін/гальмування при русі карток.
       velocityRef.current +=
         (targetVelocityRef.current - velocityRef.current) * 0.055;
       rotationRef.current += velocityRef.current;
@@ -143,10 +200,8 @@ export default function GlassImageCarousel({
                 transform: `rotateY(${slideAngle}deg) translateZ(${radius}px)`,
               }}
             >
-              {/* бічний кант (товщина) — стос силуетів між гранями */}
               {Array.from({ length: RIM_LAYERS }).map((_, layer) => {
-                const z =
-                  -DEPTH / 2 + (DEPTH * layer) / (RIM_LAYERS - 1);
+                const z = -DEPTH / 2 + (DEPTH * layer) / (RIM_LAYERS - 1);
                 const shade = 0.55 - (layer / (RIM_LAYERS - 1)) * 0.4;
                 return (
                   <div
@@ -161,7 +216,6 @@ export default function GlassImageCarousel({
                 );
               })}
 
-              {/* лицьова грань */}
               <div
                 className="absolute inset-0"
                 style={{
@@ -173,7 +227,6 @@ export default function GlassImageCarousel({
                 <Face item={item} fallback={fallback} priority={i < 4} />
               </div>
 
-              {/* дзеркальна задня грань */}
               <div
                 className="absolute inset-0"
                 style={{
