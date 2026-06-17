@@ -34,18 +34,12 @@ const PLACEHOLDERS: CarouselItem[] = [
   },
 ];
 
-// Картки квадратніші + з фізичною товщиною (≈ 3-4 мм на екрані).
-const CARD_W = 290;
-const CARD_H = 320;
 const CARD_RADIUS = 22;
-const DEPTH = 18;
-const RIM_LAYERS = 12;
 
 /**
- * Десктоп — 3D-центрифуга (важка: rAF + preserve-3d + backdrop-filter).
- * Мобайл/тач — легка нативна scroll-snap карусель БЕЗ rAF/3D/blur, щоб не
- * лагало й не вилітало. Перемикання за media-query (після маунта), тому
- * на мобілці важкий компонент взагалі не монтується.
+ * 3D-центрифуга з карток — однакова на десктопі й мобайлі. На мобайлі
+ * "compact": менші картки/зображення, тонший кант, БЕЗ backdrop-filter
+ * (саме анімований blur на рухомих картках вішав мобільні GPU).
  */
 export default function GlassImageCarousel({
   items,
@@ -57,71 +51,38 @@ export default function GlassImageCarousel({
     [items],
   );
 
-  const [is3D, setIs3D] = useState(false);
+  const [compact, setCompact] = useState(false);
   useEffect(() => {
-    const mq = window.matchMedia("(min-width: 768px) and (pointer: fine)");
-    const update = () => setIs3D(mq.matches);
+    const mq = window.matchMedia("(max-width: 767px)");
+    const update = () => setCompact(mq.matches);
     update();
     mq.addEventListener("change", update);
     return () => mq.removeEventListener("change", update);
   }, []);
 
-  if (!is3D) return <MobileCarousel slides={slides} />;
-  return <Carousel3D slides={slides} />;
+  return <Carousel3D slides={slides} compact={compact} />;
 }
 
-/* ─────────────────────────── Мобільна версія ─────────────────────────── */
+function Carousel3D({
+  slides,
+  compact,
+}: {
+  slides: CarouselItem[];
+  compact: boolean;
+}) {
+  const CARD_W = compact ? 168 : 290;
+  const CARD_H = compact ? 214 : 320;
+  const DEPTH = compact ? 8 : 18;
+  const RIM_LAYERS = compact ? 4 : 12;
+  const minRadius = compact ? 150 : 260;
+  const perspective = compact ? 1050 : 1500;
 
-function MobileCarousel({ slides }: { slides: CarouselItem[] }) {
-  return (
-    <div className="relative w-full">
-      <div className="-mx-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-4 pt-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {slides.map((item, i) => {
-          const fallback = FALLBACKS[i % FALLBACKS.length];
-          return (
-            <article
-              key={i}
-              className="relative aspect-[3/4] w-[74vw] max-w-[280px] shrink-0 snap-center overflow-hidden rounded-2xl border border-white/12"
-              style={{ background: "var(--surface-2)" }}
-            >
-              <div className="absolute inset-0">
-                {item.imageUrl ? (
-                  <SmartMedia
-                    src={item.imageUrl}
-                    alt=""
-                    fill
-                    sizes="74vw"
-                    priority={i < 2}
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="h-full w-full" style={{ background: fallback }} />
-                )}
-              </div>
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,7,17,0.05),rgba(3,7,17,0.82))]" />
-              <div className="absolute inset-x-4 bottom-4">
-                <h3 className="h-display text-xl text-white">{item.title}</h3>
-                <p className="mt-1.5 line-clamp-2 text-sm leading-5 text-cyan-50/70">
-                  {item.text}
-                </p>
-              </div>
-            </article>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-/* ─────────────────────────── Десктоп 3D ─────────────────────────── */
-
-function Carousel3D({ slides }: { slides: CarouselItem[] }) {
   const N = slides.length;
   const angleStep = 360 / Math.max(N, 1);
   const radius = useMemo(() => {
     const r = CARD_W / 2 / Math.tan(Math.PI / Math.max(N, 3));
-    return Math.max(r, 260);
-  }, [N]);
+    return Math.max(r, minRadius);
+  }, [N, CARD_W, minRadius]);
 
   const wrapRef = useRef<HTMLDivElement>(null);
   const spinnerRef = useRef<HTMLDivElement>(null);
@@ -145,6 +106,7 @@ function Carousel3D({ slides }: { slides: CarouselItem[] }) {
   }, []);
 
   function onMouseMove(event: React.MouseEvent<HTMLDivElement>) {
+    if (compact) return;
     const rect = wrapRef.current?.getBoundingClientRect();
     if (!rect) return;
     const px = (event.clientX - rect.left) / rect.width - 0.5;
@@ -158,8 +120,10 @@ function Carousel3D({ slides }: { slides: CarouselItem[] }) {
   return (
     <div
       ref={wrapRef}
-      className="relative mx-auto h-[460px] w-full max-w-[760px] select-none sm:h-[520px]"
-      style={{ perspective: "1500px", perspectiveOrigin: "50% 50%" }}
+      className={`relative mx-auto w-full select-none ${
+        compact ? "h-[300px] max-w-[420px]" : "h-[460px] max-w-[760px] sm:h-[520px]"
+      }`}
+      style={{ perspective: `${perspective}px`, perspectiveOrigin: "50% 50%" }}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
     >
@@ -224,7 +188,7 @@ function Carousel3D({ slides }: { slides: CarouselItem[] }) {
                   WebkitBackfaceVisibility: "hidden",
                 }}
               >
-                <Face item={item} fallback={fallback} priority={i < 4} />
+                <Face item={item} fallback={fallback} compact={compact} priority={i < 4} />
               </div>
 
               <div
@@ -235,7 +199,7 @@ function Carousel3D({ slides }: { slides: CarouselItem[] }) {
                   WebkitBackfaceVisibility: "hidden",
                 }}
               >
-                <Face item={item} fallback={fallback} mirrored />
+                <Face item={item} fallback={fallback} compact={compact} mirrored />
               </div>
             </div>
           );
@@ -248,11 +212,13 @@ function Carousel3D({ slides }: { slides: CarouselItem[] }) {
 function Face({
   item,
   fallback,
+  compact,
   mirrored,
   priority,
 }: {
   item: CarouselItem;
   fallback: string;
+  compact: boolean;
   mirrored?: boolean;
   priority?: boolean;
 }) {
@@ -261,13 +227,16 @@ function Face({
       className="relative h-full w-full overflow-hidden border"
       style={{
         borderRadius: CARD_RADIUS,
-        background: "rgba(255,255,255,0.07)",
-        backdropFilter: "blur(24px) saturate(155%)",
-        WebkitBackdropFilter: "blur(24px) saturate(155%)",
+        background: compact ? "rgba(12,20,40,0.92)" : "rgba(255,255,255,0.07)",
+        // backdrop-filter лишаємо лише на десктопі — на мобайлі це й вішало GPU
+        backdropFilter: compact ? undefined : "blur(24px) saturate(155%)",
+        WebkitBackdropFilter: compact ? undefined : "blur(24px) saturate(155%)",
         borderColor: "rgba(176,218,255,0.18)",
         boxShadow: mirrored
           ? "0 30px 80px -50px rgba(0,0,0,0.85)"
-          : "0 36px 100px -45px rgba(49,168,255,0.55), inset 0 1px 0 rgba(255,255,255,0.18)",
+          : compact
+            ? "0 18px 50px -30px rgba(49,168,255,0.5)"
+            : "0 36px 100px -45px rgba(49,168,255,0.55), inset 0 1px 0 rgba(255,255,255,0.18)",
         filter: mirrored ? "brightness(0.42) saturate(1.35)" : "none",
         opacity: mirrored ? 0.68 : 1,
       }}
@@ -278,7 +247,7 @@ function Face({
             src={item.imageUrl}
             alt=""
             fill
-            sizes="300px"
+            sizes={compact ? "170px" : "300px"}
             priority={priority}
             className="object-cover"
           />
@@ -288,9 +257,17 @@ function Face({
       </div>
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,7,17,0.05),rgba(3,7,17,0.78))]" />
 
-      <div className="absolute inset-x-5 bottom-5">
-        <h3 className="h-display text-2xl text-white">{item.title}</h3>
-        <p className="mt-2 line-clamp-2 text-sm leading-6 text-cyan-50/70">
+      <div className={compact ? "absolute inset-x-3 bottom-3" : "absolute inset-x-5 bottom-5"}>
+        <h3 className={compact ? "h-display text-base text-white" : "h-display text-2xl text-white"}>
+          {item.title}
+        </h3>
+        <p
+          className={
+            compact
+              ? "mt-1 line-clamp-2 text-[11px] leading-4 text-cyan-50/70"
+              : "mt-2 line-clamp-2 text-sm leading-6 text-cyan-50/70"
+          }
+        >
           {item.text}
         </p>
       </div>
