@@ -58,7 +58,15 @@ export async function POST(req: NextRequest) {
   const buf = Buffer.from(await file.arrayBuffer());
   await writeFile(path.join(dir, name), buf);
 
-  const url = `/uploads/${name}`;
+  // Публічний URL виводимо з UPLOAD_DIR: локально ./public/uploads → /uploads,
+  // на проді ./public/media (Railway Volume) → /media. Так волюм для аплоадів
+  // не перекриває закомічену public/uploads/source/.
+  const rel = path
+    .relative(path.resolve("public"), dir)
+    .split(path.sep)
+    .join("/");
+  const base = rel && !rel.startsWith("..") ? `/${rel}` : "/uploads";
+  const url = `${base}/${name}`;
   try {
     await prisma.mediaAsset.create({
       data: {

@@ -47,3 +47,5 @@ next-env.d.ts
 !/public/uploads/.gitkeep
 !/public/uploads/source/
 !/public/uploads/source/**
+# prod upload target (Railway Volume mounted here)
+/public/media/
