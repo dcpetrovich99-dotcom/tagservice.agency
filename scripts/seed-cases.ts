@@ -9,8 +9,21 @@
  * Запуск: npm run db:seed:cases
  */
 import "dotenv/config";
+import { existsSync } from "node:fs";
+import path from "node:path";
 import { PrismaClient } from "../src/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
+
+// Авто-крео: якщо у public/uploads/source/cases/<id>.<ext> є файл — лінкуємо
+// його як creoImageUrl кейса (png/jpg/webp/mp4). Просто кидаєш файл із назвою
+// = id кейса, комітиш → на деплої підхопиться.
+function creoFor(id: string): string | null {
+  for (const ext of ["png", "jpg", "jpeg", "webp", "mp4", "webm"]) {
+    const rel = `uploads/source/cases/${id}.${ext}`;
+    if (existsSync(path.resolve("public", rel))) return `/${rel}`;
+  }
+  return null;
+}
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
@@ -160,8 +173,10 @@ const CASES: CaseSeed[] = [
 async function main() {
   for (const c of CASES) {
     const { id, ...rest } = c;
-    await prisma.case.upsert({ where: { id }, create: { id, ...rest }, update: rest });
-    console.log(`• ${c.category}/${id}`);
+    const creoImageUrl = creoFor(id) ?? rest.creoImageUrl ?? null;
+    const data = { ...rest, creoImageUrl };
+    await prisma.case.upsert({ where: { id }, create: { id, ...data }, update: data });
+    console.log(`• ${c.category}/${id}${creoImageUrl ? " (creo ✓)" : ""}`);
   }
   console.log(`✔ кейсів: ${CASES.length}`);
 }
