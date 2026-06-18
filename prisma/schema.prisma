@@ -102,6 +102,7 @@ model Niche {
   nameRu        String
   descriptionUk String
   descriptionRu String
+  imageUrl      String? // картинка ніші (зображення або відео)
   order         Int       @default(0)
   updatedAt     DateTime  @updatedAt
 

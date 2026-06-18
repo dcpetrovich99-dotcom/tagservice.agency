@@ -154,6 +154,7 @@ export const RESOURCES: Resource[] = [
       { name: "nameRu", label: "Назва (рос)", type: "text", required: true },
       { name: "descriptionUk", label: "Опис (укр)", type: "textarea", required: true },
       { name: "descriptionRu", label: "Опис (рос)", type: "textarea", required: true },
+      { name: "imageUrl", label: "Картинка ніші", type: "image" },
       { name: "order", label: "Порядок", type: "number" },
     ],
   },
