@@ -16,7 +16,8 @@
     "import:sources": "tsx scripts/import-sources.ts",
     "db:seed:extras": "tsx scripts/seed-extras.ts",
     "db:snapshot:dump": "tsx scripts/snapshot-dump.ts",
-    "db:snapshot:load": "tsx scripts/snapshot-load.ts"
+    "db:snapshot:load": "tsx scripts/snapshot-load.ts",
+    "db:seed:cases": "tsx scripts/seed-cases.ts"
   },
   "dependencies": {
     "@node-rs/argon2": "^2.0.2",
