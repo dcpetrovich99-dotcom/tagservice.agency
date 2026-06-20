@@ -263,17 +263,18 @@ export default function LeadCalculator() {
                   </span>
                   <select
                     className="input"
+                    style={{ color: "var(--text)" }}
                     value={selectedNiche?.key ?? ""}
                     onChange={(e) => {
                       const n = niches.find((n) => n.key === e.target.value);
                       if (n) handleNicheSelect(n);
                     }}
                   >
-                    <option value="" disabled>
+                    <option value="" disabled style={{ background: "#0e1a2d", color: "#edf7ff" }}>
                       {uk ? "— оберіть нішу —" : "— выберите нишу —"}
                     </option>
                     {niches.map((n) => (
-                      <option key={n.key} value={n.key}>
+                      <option key={n.key} value={n.key} style={{ background: "#0e1a2d", color: "#edf7ff" }}>
                         {uk ? n.uk : n.ru}
                         {n.cplMin > 0
                           ? `  (CPL $${n.cplMin}–$${n.cplMax})`
