@@ -18,7 +18,8 @@
     "db:snapshot:dump": "tsx scripts/snapshot-dump.ts",
     "db:snapshot:load": "tsx scripts/snapshot-load.ts",
     "db:seed:cases": "tsx scripts/seed-cases.ts",
-    "db:seed:niches": "tsx scripts/seed-niches.ts"
+    "db:seed:niches": "tsx scripts/seed-niches.ts",
+    "db:seed:blog": "tsx scripts/seed-blog.ts"
   },
   "dependencies": {
     "@node-rs/argon2": "^2.0.2",
