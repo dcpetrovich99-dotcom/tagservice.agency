@@ -47,11 +47,16 @@ export function managerDeepLink(managerRaw: string, lead: LeadLike): string {
   return `${base}?text=${text}`;
 }
 
-/** Опційне сповіщення у чат/канал через бота (мовчки no-op без токена). */
+/** Опційне сповіщення у чат/канал через бота (no-op без токена, але з логом). */
 export async function notifyTelegram(lead: LeadLike): Promise<void> {
-  if (!env.telegramBotToken || !env.telegramChatId) return;
+  if (!env.telegramBotToken || !env.telegramChatId) {
+    console.error(
+      "[telegram] заявку НЕ надіслано: відсутні TELEGRAM_BOT_TOKEN/TELEGRAM_CHAT_ID у середовищі",
+    );
+    return;
+  }
   try {
-    await fetch(
+    const res = await fetch(
       `https://api.telegram.org/bot${env.telegramBotToken}/sendMessage`,
       {
         method: "POST",
@@ -63,7 +68,13 @@ export async function notifyTelegram(lead: LeadLike): Promise<void> {
         }),
       },
     );
-  } catch {
+    if (!res.ok) {
+      console.error(
+        `[telegram] sendMessage ${res.status}: ${await res.text().catch(() => "")}`,
+      );
+    }
+  } catch (e) {
     // best-effort: не блокуємо користувача, якщо сповіщення не пройшло
+    console.error("[telegram] sendMessage помилка мережі:", e);
   }
 }

@@ -49,9 +49,14 @@ function summary(d: z.infer<typeof calcSchema>): string {
 }
 
 async function notify(text: string): Promise<void> {
-  if (!env.telegramBotToken || !env.telegramChatId) return;
+  if (!env.telegramBotToken || !env.telegramChatId) {
+    console.error(
+      "[calc-lead] заявку НЕ надіслано: відсутні TELEGRAM_BOT_TOKEN/TELEGRAM_CHAT_ID у середовищі",
+    );
+    return;
+  }
   try {
-    await fetch(
+    const res = await fetch(
       `https://api.telegram.org/bot${env.telegramBotToken}/sendMessage`,
       {
         method: "POST",
@@ -63,8 +68,14 @@ async function notify(text: string): Promise<void> {
         }),
       },
     );
-  } catch {
+    if (!res.ok) {
+      console.error(
+        `[calc-lead] sendMessage ${res.status}: ${await res.text().catch(() => "")}`,
+      );
+    }
+  } catch (e) {
     // best-effort: не блокуємо користувача
+    console.error("[calc-lead] sendMessage помилка мережі:", e);
   }
 }
 
