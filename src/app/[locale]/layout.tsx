@@ -13,6 +13,7 @@ import { getSettings, contacts } from "@/lib/content";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Preloader from "@/components/Preloader";
+import SupportFab from "@/components/SupportFab";
 import "../globals.css";
 
 const manrope = Manrope({
@@ -77,6 +78,7 @@ export default async function LocaleLayout({
             <main className="flex-1">{children}</main>
             <Footer manager={c.manager} channel={c.channel} />
           </div>
+          <SupportFab />
         </NextIntlClientProvider>
       </body>
     </html>

@@ -144,7 +144,15 @@ export default function LeadCalculator() {
     setTimeout(() => {
       if (loadingRef.current) clearInterval(loadingRef.current);
       setStep("result");
-      setTimeout(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+      // Прокрутка з відступом під шапку — детерміновано, щоб на мобайлі не кидало у футер.
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          const el = resultRef.current;
+          if (!el) return;
+          const y = el.getBoundingClientRect().top + window.scrollY - 88;
+          window.scrollTo({ top: y, behavior: "smooth" });
+        }),
+      );
     }, 3000);
   }
 

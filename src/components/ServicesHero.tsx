@@ -53,6 +53,7 @@ export default function ServicesHero({ locale }: { locale: "uk" | "ru" }) {
         priority
         sizes="100vw"
         className="object-cover"
+        style={{ objectPosition: "50% 62%" }}
       />
 
       {/* Темна вуаль під тему сайту + плавний перехід у фон сторінки */}
@@ -92,9 +93,9 @@ export default function ServicesHero({ locale }: { locale: "uk" | "ru" }) {
         ))}
       </svg>
 
-      {/* Комета — пролітає раз на ~20с */}
+      {/* Комета — пролітає раз на ~5с (і на мобайлі теж) */}
       <motion.div
-        className="pointer-events-none absolute left-[-12%] top-[6%] hidden md:block"
+        className="pointer-events-none absolute left-[-12%] top-[6%] block"
         initial={{ x: 0, y: 0, opacity: 0 }}
         animate={{ x: ["0vw", "120vw"], y: ["0vh", "26vh"], opacity: [0, 1, 1, 0] }}
         transition={{
@@ -145,6 +146,24 @@ export default function ServicesHero({ locale }: { locale: "uk" | "ru" }) {
           {uk ? s.chipUk : s.chipRu}
         </motion.a>
       ))}
+
+      {/* Чіпи для мобайлу — компактний кластер по центру внизу банера */}
+      <motion.div
+        className="absolute inset-x-0 bottom-4 z-20 flex flex-wrap items-center justify-center gap-1.5 px-5 md:hidden"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.45 }}
+      >
+        {SERVICE_ITEMS.map((s) => (
+          <a
+            key={s.id}
+            href={`#svc-${s.id}`}
+            className="rounded-full border border-white/15 bg-black/45 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.08em] text-cyan-50/90 backdrop-blur-md active:border-[var(--brand-strong)]"
+          >
+            {uk ? s.chipUk : s.chipRu}
+          </a>
+        ))}
+      </motion.div>
 
       {/* Головний блок */}
       <div className="pointer-events-none absolute inset-x-0 top-0 flex h-full flex-col items-center justify-center px-4 text-center">
