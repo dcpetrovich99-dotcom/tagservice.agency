@@ -90,15 +90,16 @@ export default function ServicesCarousel({ locale }: { locale: "uk" | "ru" }) {
         </p>
       </div>
 
-      {/* 3D-сцена */}
+      {/* 3D-сцена — overflow-hidden, щоб бокові картки не давали горизонтальний скрол */}
       <div
-        className="relative mt-10 select-none"
+        className="relative mt-10 select-none overflow-hidden py-6"
         style={{ perspective: "1500px" }}
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >
+        {/* Драг по всій ширині — свайпати можна звідусіль, не лише по картці */}
         <motion.div
-          className="relative mx-auto h-[380px] w-full max-w-3xl sm:h-[400px]"
+          className="relative mx-auto h-[380px] w-full cursor-grab touch-pan-y active:cursor-grabbing sm:h-[400px]"
           style={{ transformStyle: "preserve-3d" }}
           drag="x"
           dragConstraints={{ left: 0, right: 0 }}
