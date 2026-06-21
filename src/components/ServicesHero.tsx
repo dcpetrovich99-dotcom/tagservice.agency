@@ -2,22 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-
-const CHIPS = [
-  { label: "Платний трафік", x: "8%", y: "20%", d: 0 },
-  { label: "TG Ads", x: "24%", y: "40%", d: 0.08 },
-  { label: "Meta Ads", x: "6%", y: "58%", d: 0.16 },
-  { label: "Google Ads", x: "30%", y: "64%", d: 0.04 },
-  { label: "TG-розсилки", x: "50%", y: "16%", d: 0.12 },
-  { label: "Авто-коментинг", x: "57%", y: "46%", d: 0.06 },
-  { label: "Лендінги та сайти", x: "67%", y: "24%", d: 0.2 },
-  { label: "CRM-системи", x: "74%", y: "60%", d: 0.1 },
-  { label: "Telegram Bot", x: "84%", y: "38%", d: 0.18 },
-  { label: "Креативи", x: "40%", y: "74%", d: 0.14 },
-  { label: "Відео-крео", x: "58%", y: "78%", d: 0.08 },
-  { label: "SMM", x: "82%", y: "70%", d: 0.22 },
-  { label: "Під ключ", x: "16%", y: "80%", d: 0.3 },
-];
+import { SERVICE_ITEMS } from "./serviceItems";
 
 // Детерміновані позиції мерехтливих зірок (без гідрейшн-розбіжностей).
 const STARS = Array.from({ length: 70 }).map((_, i) => ({
@@ -28,10 +13,38 @@ const STARS = Array.from({ length: 70 }).map((_, i) => ({
   delay: ((i * 13) % 30) / 10, // 0–3с
 }));
 
+function Sparkle({ left, top }: { left: string; top: string }) {
+  return (
+    <motion.svg
+      className="pointer-events-none absolute hidden md:block"
+      style={{ left, top, transform: "translate(-22%, -38%)" }}
+      width="76"
+      height="76"
+      viewBox="0 0 100 100"
+      aria-hidden
+      initial={{ opacity: 0.4, scale: 0.85 }}
+      animate={{ opacity: [0.4, 1, 0.4], scale: [0.85, 1.05, 0.85] }}
+      transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+    >
+      <defs>
+        <radialGradient id="spark-g" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="55%" stopColor="#9fe2ff" />
+          <stop offset="100%" stopColor="rgba(120,215,255,0)" />
+        </radialGradient>
+      </defs>
+      <path
+        d="M50 6 C53 38 62 47 94 50 C62 53 53 62 50 94 C47 62 38 53 6 50 C38 47 47 38 50 6 Z"
+        fill="url(#spark-g)"
+      />
+    </motion.svg>
+  );
+}
+
 export default function ServicesHero({ locale }: { locale: "uk" | "ru" }) {
   const uk = locale === "uk";
   return (
-    <section className="relative isolate h-[540px] w-full overflow-hidden sm:h-[600px] lg:h-[660px]">
+    <section className="relative isolate h-[520px] w-full overflow-hidden sm:h-[600px] lg:h-[660px]">
       {/* Фото-фон (нічні гори) */}
       <Image
         src="/services-hero.png"
@@ -79,28 +92,64 @@ export default function ServicesHero({ locale }: { locale: "uk" | "ru" }) {
         ))}
       </svg>
 
+      {/* Комета — пролітає раз на ~20с */}
+      <motion.div
+        className="pointer-events-none absolute left-[-12%] top-[6%] hidden md:block"
+        initial={{ x: 0, y: 0, opacity: 0 }}
+        animate={{ x: ["0vw", "120vw"], y: ["0vh", "26vh"], opacity: [0, 1, 1, 0] }}
+        transition={{
+          duration: 2.2,
+          times: [0, 0.1, 0.85, 1],
+          repeat: Infinity,
+          repeatDelay: 17.8,
+          ease: "easeIn",
+        }}
+      >
+        <div className="relative">
+          {/* Хвіст */}
+          <div
+            className="absolute right-2 top-1/2 h-[2px] w-40 -translate-y-1/2 rounded-full"
+            style={{
+              background:
+                "linear-gradient(90deg, rgba(159,226,255,0) 0%, rgba(159,226,255,0.75) 80%, #ffffff 100%)",
+            }}
+          />
+          {/* Голова */}
+          <div
+            className="h-2.5 w-2.5 rounded-full"
+            style={{ background: "#ffffff", boxShadow: "0 0 16px 4px rgba(159,226,255,0.9)" }}
+          />
+        </div>
+      </motion.div>
+
       {/* Glow-орби в тон бренду */}
       <div className="pointer-events-none absolute left-[12%] top-[10%] h-64 w-64 rounded-full bg-[rgba(120,215,255,0.16)] blur-[100px]" />
       <div className="pointer-events-none absolute right-[14%] top-[6%] h-80 w-80 rounded-full bg-[rgba(118,103,255,0.16)] blur-[120px]" />
 
-      {/* Плаваючі чіпи послуг */}
-      {CHIPS.map((c) => (
-        <motion.span
-          key={c.label}
-          className="absolute hidden rounded-full border border-white/15 bg-black/25 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-cyan-50/85 backdrop-blur-md md:inline-block"
-          style={{ left: c.x, top: c.y }}
-          initial={{ opacity: 0, y: 12 }}
+      {/* Великі зірки під обраними чіпами */}
+      {SERVICE_ITEMS.filter((s) => s.big).map((s) => (
+        <Sparkle key={s.id} left={s.x} top={s.y} />
+      ))}
+
+      {/* Плаваючі чіпи послуг → лінк на свою секцію нижче */}
+      {SERVICE_ITEMS.map((s, i) => (
+        <motion.a
+          key={s.id}
+          href={`#svc-${s.id}`}
+          className="absolute hidden cursor-pointer rounded-full border border-white/15 bg-black/30 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-cyan-50/90 backdrop-blur-md transition-colors hover:border-[var(--brand-strong)] hover:text-white md:inline-block"
+          style={{ left: s.x, top: s.y }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: c.d + 0.3 }}
+          transition={{ duration: 0.5, delay: 0.3 + (i % 7) * 0.04 }}
         >
-          {c.label}
-        </motion.span>
+          {uk ? s.chipUk : s.chipRu}
+        </motion.a>
       ))}
 
       {/* Головний блок */}
       <div className="absolute inset-x-0 top-0 flex h-full flex-col items-center justify-center px-4 text-center">
         <motion.div
-          className="font-mono text-[11px] uppercase tracking-[0.32em] text-[var(--brand-strong)]"
+          className="font-mono text-[10px] uppercase tracking-[0.32em] text-[var(--brand-strong)] sm:text-[11px]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -108,8 +157,8 @@ export default function ServicesHero({ locale }: { locale: "uk" | "ru" }) {
           TAG SERVICE AGENCY
         </motion.div>
         <motion.h1
-          className="mt-4 max-w-4xl text-[clamp(1.9rem,5vw,4rem)] font-extrabold leading-[1.04] text-[var(--text)]"
-          style={{ textShadow: "0 2px 30px rgba(3,7,17,0.85)" }}
+          className="mt-3 max-w-[20rem] text-[clamp(1.5rem,5.4vw,4rem)] font-extrabold leading-[1.06] text-[var(--text)] sm:mt-4 sm:max-w-4xl"
+          style={{ textShadow: "0 2px 30px rgba(3,7,17,0.9)" }}
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.72, delay: 0.1 }}
@@ -141,7 +190,7 @@ export default function ServicesHero({ locale }: { locale: "uk" | "ru" }) {
           </span>
         </motion.h1>
         <motion.p
-          className="mt-5 max-w-xl text-base text-[var(--text)]/85 sm:text-lg"
+          className="mt-4 max-w-[18rem] text-sm text-[var(--text)]/85 sm:mt-5 sm:max-w-xl sm:text-lg"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.25 }}
@@ -152,12 +201,12 @@ export default function ServicesHero({ locale }: { locale: "uk" | "ru" }) {
         </motion.p>
         <motion.a
           href="#calculator"
-          className="btn btn-primary mt-8"
+          className="btn btn-primary mt-6 sm:mt-8"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          {uk ? "Порахувати ліди →" : "Посчитать лиды →"}
+          {uk ? "Порахувати ліди ↓" : "Посчитать лиды ↓"}
         </motion.a>
       </div>
     </section>

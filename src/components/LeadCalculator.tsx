@@ -276,9 +276,6 @@ export default function LeadCalculator() {
                     {niches.map((n) => (
                       <option key={n.key} value={n.key} style={{ background: "#0e1a2d", color: "#edf7ff" }}>
                         {uk ? n.uk : n.ru}
-                        {n.cplMin > 0
-                          ? `  (CPL $${n.cplMin}–$${n.cplMax})`
-                          : ""}
                       </option>
                     ))}
                   </select>
@@ -384,25 +381,26 @@ export default function LeadCalculator() {
           {/* LOADING step */}
           {step === "loading" && (
             <motion.div
-              className="card flex flex-col items-center gap-6 p-10 text-center"
+              className="card flex flex-col items-center gap-5 p-10 text-center"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
-              {/* Spinner */}
-              <div className="relative h-16 w-16">
-                <motion.div
-                  className="absolute inset-0 rounded-full border-2 border-transparent"
-                  style={{
-                    borderTopColor: "var(--brand-strong)",
-                    borderRightColor: "var(--accent)",
-                  }}
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
-                />
-                <div
-                  className="absolute inset-2 rounded-full"
-                  style={{ background: "var(--surface-2)" }}
-                />
+              {/* Прогрес-крапки замість пропелера */}
+              <div className="flex items-center gap-2">
+                {[0, 1, 2].map((d) => (
+                  <motion.span
+                    key={d}
+                    className="h-2.5 w-2.5 rounded-full"
+                    style={{ background: "var(--brand-strong)" }}
+                    animate={{ opacity: [0.25, 1, 0.25], scale: [0.8, 1.15, 0.8] }}
+                    transition={{
+                      duration: 1.1,
+                      delay: d * 0.18,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                  />
+                ))}
               </div>
               <AnimatePresence mode="wait">
                 <motion.p
@@ -423,7 +421,7 @@ export default function LeadCalculator() {
           {step === "result" && selectedNiche && (
             <motion.div
               ref={resultRef}
-              className="flex flex-col gap-5"
+              className="flex scroll-mt-28 flex-col gap-5 pt-3 sm:pt-4"
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
