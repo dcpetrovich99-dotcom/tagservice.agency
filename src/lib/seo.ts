@@ -122,6 +122,36 @@ export function pageMetadata(
   };
 }
 
+// JSON-LD: FAQ — для розширених сніпетів Google.
+export function faqJsonLd(items: { q: string; a: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((it) => ({
+      "@type": "Question",
+      name: it.q,
+      acceptedAnswer: { "@type": "Answer", text: it.a },
+    })),
+  };
+}
+
+// JSON-LD: хлібні крихти.
+export function breadcrumbJsonLd(
+  locale: Locale,
+  crumbs: { name: string; path: string }[],
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: crumbs.map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: c.name,
+      item: `${SITE_URL}/${locale}${c.path}`,
+    })),
+  };
+}
+
 // JSON-LD: організація + сайт + профіль послуг. Вставляється в <head>.
 export function organizationJsonLd(locale: Locale) {
   const s = SEO[locale];
