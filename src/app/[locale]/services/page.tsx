@@ -1,13 +1,35 @@
+import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { isLocale } from "@/i18n/routing";
 import { getSettings, setting } from "@/lib/content";
+import { pageMetadata } from "@/lib/seo";
 import { Link } from "@/i18n/navigation";
 import ServicesHero from "@/components/ServicesHero";
 import ServicesCarousel from "@/components/ServicesCarousel";
 import LeadCalculator from "@/components/LeadCalculator";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const L = (isLocale(locale) ? locale : "ru") as "uk" | "ru";
+  return pageMetadata(L, {
+    path: "/services",
+    title:
+      L === "uk"
+        ? "Послуги: трафік, реклама та лідогенерація під ключ"
+        : "Услуги: трафик, реклама и лидогенерация под ключ",
+    description:
+      L === "uk"
+        ? "Налаштування реклами й трафіку: Google Ads, Meta (Instagram/Facebook), Telegram Ads, SMM, CRM, лендінги. Порахуйте, скільки лідів ми принесемо за ваш бюджет — за 3 секунди."
+        : "Настройка рекламы и трафика: Google Ads, Meta (Instagram/Facebook), Telegram Ads, SMM, CRM, лендинги. Посчитайте, сколько лидов мы принесём за ваш бюджет — за 3 секунды.",
+  });
+}
 
 export default async function ServicesPage({
   params,

@@ -1,12 +1,34 @@
+import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { isLocale } from "@/i18n/routing";
 import { getSettings, getPageBanners, contacts } from "@/lib/content";
 import { managerHref } from "@/lib/telegram";
+import { pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/PageHero";
 import QuizForm from "@/components/QuizForm";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const L = (isLocale(locale) ? locale : "ru") as "uk" | "ru";
+  return pageMetadata(L, {
+    path: "/contacts",
+    title:
+      L === "uk"
+        ? "Контакти — замовити рекламу та трафік"
+        : "Контакты — заказать рекламу и трафик",
+    description:
+      L === "uk"
+        ? "Звʼяжіться з маркетинговим агентством TAG Service: залиште заявку на трафік, рекламу та лідогенерацію. Відповідаємо швидко у Telegram."
+        : "Свяжитесь с маркетинговым агентством TAG Service: оставьте заявку на трафик, рекламу и лидогенерацию. Отвечаем быстро в Telegram.",
+  });
+}
 
 export default async function ContactsPage({
   params,
