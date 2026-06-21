@@ -4,7 +4,7 @@ import { isLocale } from "@/i18n/routing";
 import { getSettings, setting } from "@/lib/content";
 import { Link } from "@/i18n/navigation";
 import ServicesHero from "@/components/ServicesHero";
-import ServicesDetail from "@/components/ServicesDetail";
+import ServicesCarousel from "@/components/ServicesCarousel";
 import LeadCalculator from "@/components/LeadCalculator";
 
 export const dynamic = "force-dynamic";
@@ -32,7 +32,7 @@ export default async function ServicesPage({
 
       {/* Детальні послуги — опаковий блок, що «наїжджає» на банер. */}
       <section className="relative z-10 -mt-8 rounded-t-[2rem] bg-[var(--bg)] shadow-[0_-24px_60px_rgba(0,0,0,0.55)] sm:-mt-12 sm:rounded-t-[2.5rem]">
-        <ServicesDetail locale={L} />
+        <ServicesCarousel locale={L} />
 
         {/* Дисклеймер про ціни — по центру */}
         <div className="container-x pb-16">

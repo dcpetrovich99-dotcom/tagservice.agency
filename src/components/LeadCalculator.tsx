@@ -528,133 +528,7 @@ export default function LeadCalculator() {
             </motion.div>
           )}
 
-          {/* CONFIRM step */}
-          {step === "confirm" && selectedNiche && (
-            <motion.div
-              className="card p-7 sm:p-9"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <h3 className="h-display text-xl">
-                {uk ? "Ми правильно зрозуміли?" : "Мы правильно поняли?"}
-              </h3>
-              <div className="mt-4 space-y-2">
-                <Row label={uk ? "Ніша" : "Ниша"} val={uk ? selectedNiche.uk : selectedNiche.ru} />
-                <Row label={uk ? "Тип" : "Тип"} val={selectedNiche.type === "white" ? (uk ? "Біла" : "Белая") : (uk ? "Сіра" : "Серая")} />
-                <Row label={uk ? "Гео" : "Гео"} val={uk ? geo.uk : geo.ru} />
-                <Row label={uk ? "Бюджет/день" : "Бюджет/день"} val={`$${budgetNum}`} />
-                <Row label={uk ? "Бюджет/місяць" : "Бюджет/месяц"} val={`$${monthly.toLocaleString()}`} />
-                <Row label={uk ? "Прогноз" : "Прогноз"} val={`${leadsMin}–${leadsMax} ${unitStr}/міс`} accent />
-              </div>
-              <div className="mt-6 grid grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={() => setStep("contact")}
-                >
-                  {uk ? "Так, все вірно" : "Да, всё верно"}
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-ghost"
-                  onClick={() => setStep("select")}
-                >
-                  {uk ? "Змінити" : "Изменить"}
-                </button>
-              </div>
-            </motion.div>
-          )}
-
-          {/* CONTACT step */}
-          {step === "contact" && (
-            <motion.div
-              className="card p-7 sm:p-9"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <h3 className="h-display text-xl">
-                {uk ? "Куди надсилати прорахунок?" : "Куда отправить расчёт?"}
-              </h3>
-              <p className="text-muted mt-2 text-sm">
-                {uk
-                  ? "Вкажіть Telegram або телефон — ми напишемо вручну й уточнимо деталі."
-                  : "Укажите Telegram или телефон — напишем вручную и уточним детали."}
-              </p>
-
-              <div className="mt-5 flex flex-col gap-4">
-                <label className="block">
-                  <span className="mb-1 block text-sm font-medium">Telegram</span>
-                  <input
-                    className="input"
-                    placeholder="@username"
-                    value={tgInput}
-                    onChange={(e) => setTgInput(e.target.value)}
-                  />
-                </label>
-                <label className="block">
-                  <span className="mb-1 block text-sm font-medium">
-                    {uk ? "Телефон" : "Телефон"}
-                  </span>
-                  <input
-                    className="input"
-                    placeholder="+380…"
-                    type="tel"
-                    value={phoneInput}
-                    onChange={(e) => setPhoneInput(e.target.value)}
-                  />
-                </label>
-              </div>
-
-              <button
-                type="button"
-                className="btn btn-primary mt-6 w-full"
-                disabled={(!tgInput && !phoneInput) || submitting}
-                style={{ opacity: (!tgInput && !phoneInput) || submitting ? 0.5 : 1 }}
-                onClick={handleSubmit}
-              >
-                {submitting
-                  ? (uk ? "Відправляємо…" : "Отправляем…")
-                  : (uk ? "Відправити заявку →" : "Отправить заявку →")}
-              </button>
-            </motion.div>
-          )}
-
-          {/* SUCCESS step */}
-          {step === "success" && (
-            <motion.div
-              className="card p-8 text-center"
-              initial={{ opacity: 0, scale: 0.97 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4 }}
-            >
-              <div className="text-4xl">🎯</div>
-              <h3 className="h-display mt-4 text-2xl">
-                {uk ? "Заявку прийнято!" : "Заявка принята!"}
-              </h3>
-              <p className="text-muted mt-3">
-                {uk
-                  ? "Ми вже бачимо ваш запит і зв'яжемось найближчим часом."
-                  : "Мы уже видим ваш запрос и свяжемся в ближайшее время."}
-              </p>
-              <p className="mt-2 text-sm" style={{ color: "var(--brand-strong)" }}>
-                {uk
-                  ? "А поки — перегляньте наші кейси та побачте результати нашої роботи."
-                  : "А пока — посмотрите наши кейсы и увидите результаты нашей работы."}
-              </p>
-              <Link href="/cases" className="btn btn-primary mt-6">
-                {uk ? "Переглянути кейси →" : "Посмотреть кейсы →"}
-              </Link>
-              <button
-                type="button"
-                className="mt-3 block w-full text-sm text-[var(--text-muted)]"
-                onClick={reset}
-              >
-                {uk ? "← Новий прорахунок" : "← Новый расчёт"}
-              </button>
-            </motion.div>
-          )}
+          {/* CONFIRM / CONTACT / SUCCESS — винесено у fly-out модалку нижче */}
         </div>
       </div>
 
@@ -708,6 +582,152 @@ export default function LeadCalculator() {
           </AnimatePresence>,
           document.body,
         )}
+
+      {/* Fly-out форма заявки → Telegram */}
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {(step === "confirm" || step === "contact" || step === "success") &&
+              selectedNiche && (
+                <motion.div
+                  className="fixed inset-0 z-[160] flex items-center justify-center px-4 py-8"
+                  style={{ background: "rgba(3,6,14,0.74)", backdropFilter: "blur(10px)" }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setStep(step === "success" ? "select" : "result")}
+                >
+                  <motion.div
+                    className="card w-full max-w-md overflow-hidden p-7 sm:p-8"
+                    style={{ transformPerspective: 1000 }}
+                    initial={{ opacity: 0, y: 60, scale: 0.88, rotateX: -10 }}
+                    animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
+                    exit={{ opacity: 0, y: 40, scale: 0.9 }}
+                    transition={{ type: "spring", stiffness: 220, damping: 24 }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {/* Закрити */}
+                    <button
+                      type="button"
+                      aria-label="close"
+                      className="absolute right-4 top-4 text-xl text-[var(--text-muted)] hover:text-[var(--text)]"
+                      onClick={() => setStep(step === "success" ? "select" : "result")}
+                    >
+                      ×
+                    </button>
+
+                    {/* CONFIRM */}
+                    {step === "confirm" && (
+                      <>
+                        <h3 className="h-display text-xl">
+                          {uk ? "Ми правильно зрозуміли?" : "Мы правильно поняли?"}
+                        </h3>
+                        <div className="mt-4 space-y-2">
+                          <Row label={uk ? "Ніша" : "Ниша"} val={uk ? selectedNiche.uk : selectedNiche.ru} />
+                          <Row label={uk ? "Тип" : "Тип"} val={selectedNiche.type === "white" ? (uk ? "Біла" : "Белая") : (uk ? "Сіра" : "Серая")} />
+                          <Row label={uk ? "Гео" : "Гео"} val={uk ? geo.uk : geo.ru} />
+                          <Row label={uk ? "Бюджет/день" : "Бюджет/день"} val={`$${budgetNum}`} />
+                          <Row label={uk ? "Бюджет/місяць" : "Бюджет/месяц"} val={`$${monthly.toLocaleString()}`} />
+                          <Row label={uk ? "Прогноз" : "Прогноз"} val={`${leadsMin}–${leadsMax} ${unitStr}/міс`} accent />
+                        </div>
+                        <div className="mt-6 grid grid-cols-2 gap-3">
+                          <button type="button" className="btn btn-primary" onClick={() => setStep("contact")}>
+                            {uk ? "Так, все вірно" : "Да, всё верно"}
+                          </button>
+                          <button type="button" className="btn btn-ghost" onClick={reset}>
+                            {uk ? "Змінити" : "Изменить"}
+                          </button>
+                        </div>
+                      </>
+                    )}
+
+                    {/* CONTACT */}
+                    {step === "contact" && (
+                      <>
+                        <h3 className="h-display text-xl">
+                          {uk ? "Куди надсилати прорахунок?" : "Куда отправить расчёт?"}
+                        </h3>
+                        <p className="text-muted mt-2 text-sm">
+                          {uk
+                            ? "Вкажіть Telegram або телефон — ми напишемо вручну й уточнимо деталі."
+                            : "Укажите Telegram или телефон — напишем вручную и уточним детали."}
+                        </p>
+                        <div className="mt-5 flex flex-col gap-4">
+                          <label className="block">
+                            <span className="mb-1 block text-sm font-medium">Telegram</span>
+                            <input
+                              className="input"
+                              placeholder="@username"
+                              value={tgInput}
+                              onChange={(e) => setTgInput(e.target.value)}
+                            />
+                          </label>
+                          <label className="block">
+                            <span className="mb-1 block text-sm font-medium">
+                              {uk ? "Телефон" : "Телефон"}
+                            </span>
+                            <input
+                              className="input"
+                              placeholder="+380…"
+                              type="tel"
+                              value={phoneInput}
+                              onChange={(e) => setPhoneInput(e.target.value)}
+                            />
+                          </label>
+                        </div>
+                        <button
+                          type="button"
+                          className="btn btn-primary mt-6 w-full"
+                          disabled={(!tgInput && !phoneInput) || submitting}
+                          style={{ opacity: (!tgInput && !phoneInput) || submitting ? 0.5 : 1 }}
+                          onClick={handleSubmit}
+                        >
+                          {submitting
+                            ? uk
+                              ? "Відправляємо…"
+                              : "Отправляем…"
+                            : uk
+                              ? "Відправити заявку →"
+                              : "Отправить заявку →"}
+                        </button>
+                      </>
+                    )}
+
+                    {/* SUCCESS */}
+                    {step === "success" && (
+                      <div className="text-center">
+                        <div className="text-4xl">🎯</div>
+                        <h3 className="h-display mt-4 text-2xl">
+                          {uk ? "Заявку прийнято!" : "Заявка принята!"}
+                        </h3>
+                        <p className="text-muted mt-3">
+                          {uk
+                            ? "Ми вже бачимо ваш запит і зв'яжемось найближчим часом."
+                            : "Мы уже видим ваш запрос и свяжемся в ближайшее время."}
+                        </p>
+                        <p className="mt-2 text-sm" style={{ color: "var(--brand-strong)" }}>
+                          {uk
+                            ? "А поки — перегляньте наші кейси та побачте результати нашої роботи."
+                            : "А пока — посмотрите наши кейсы и увидите результаты нашей работы."}
+                        </p>
+                        <Link href="/cases" className="btn btn-primary mt-6">
+                          {uk ? "Переглянути кейси →" : "Посмотреть кейсы →"}
+                        </Link>
+                        <button
+                          type="button"
+                          className="mt-3 block w-full text-sm text-[var(--text-muted)]"
+                          onClick={reset}
+                        >
+                          {uk ? "← Новий прорахунок" : "← Новый расчёт"}
+                        </button>
+                      </div>
+                    )}
+                  </motion.div>
+                </motion.div>
+              )}
+          </AnimatePresence>,
+          document.body,
+        )}
     </div>
   );
 }
@@ -738,34 +758,25 @@ function Row({
 
 function PulseCTAButton({ label, onClick }: { label: string; onClick: () => void }) {
   return (
-    <div className="relative inline-block">
-      {/* Rotating gradient ring */}
-      <motion.div
-        className="pointer-events-none absolute -inset-[3px] rounded-full"
-        style={{
-          background:
-            "conic-gradient(from 0deg, var(--brand-strong), var(--accent), var(--accent-2), var(--brand-strong))",
-        }}
-        animate={{ rotate: 360 }}
-        transition={{ duration: 2.8, repeat: Infinity, ease: "linear" }}
-      />
-      <motion.button
-        type="button"
-        onClick={onClick}
-        className="relative rounded-full bg-[var(--bg)] px-8 py-3.5 text-sm font-bold text-white"
-        animate={{
-          boxShadow: [
-            "0 0 0 0 rgba(49,168,255,0.5)",
-            "0 0 0 14px rgba(49,168,255,0)",
-            "0 0 0 0 rgba(49,168,255,0)",
-          ],
-        }}
-        transition={{ duration: 1.8, repeat: Infinity }}
-        whileHover={{ scale: 1.04 }}
-        whileTap={{ scale: 0.97 }}
-      >
-        {label}
-      </motion.button>
-    </div>
+    <motion.button
+      type="button"
+      onClick={onClick}
+      className="relative inline-flex items-center justify-center rounded-full px-8 py-3.5 text-sm font-bold text-white"
+      style={{
+        background: "linear-gradient(115deg, var(--brand-strong), var(--accent))",
+      }}
+      animate={{
+        boxShadow: [
+          "0 0 0 0 rgba(120,215,255,0.45)",
+          "0 0 0 12px rgba(120,215,255,0)",
+          "0 0 0 0 rgba(120,215,255,0)",
+        ],
+      }}
+      transition={{ duration: 1.9, repeat: Infinity, ease: "easeOut" }}
+      whileHover={{ scale: 1.04 }}
+      whileTap={{ scale: 0.97 }}
+    >
+      {label}
+    </motion.button>
   );
 }

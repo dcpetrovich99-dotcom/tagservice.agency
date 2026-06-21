@@ -98,10 +98,10 @@ export default function ServicesHero({ locale }: { locale: "uk" | "ru" }) {
         initial={{ x: 0, y: 0, opacity: 0 }}
         animate={{ x: ["0vw", "120vw"], y: ["0vh", "26vh"], opacity: [0, 1, 1, 0] }}
         transition={{
-          duration: 2.2,
+          duration: 2,
           times: [0, 0.1, 0.85, 1],
           repeat: Infinity,
-          repeatDelay: 17.8,
+          repeatDelay: 3,
           ease: "easeIn",
         }}
       >
