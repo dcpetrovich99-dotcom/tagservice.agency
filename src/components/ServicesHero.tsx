@@ -136,7 +136,7 @@ export default function ServicesHero({ locale }: { locale: "uk" | "ru" }) {
         <motion.a
           key={s.id}
           href={`#svc-${s.id}`}
-          className="absolute hidden cursor-pointer rounded-full border border-white/15 bg-black/30 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-cyan-50/90 backdrop-blur-md transition-colors hover:border-[var(--brand-strong)] hover:text-white md:inline-block"
+          className="absolute z-20 hidden cursor-pointer rounded-full border border-white/15 bg-black/30 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-cyan-50/90 backdrop-blur-md transition-colors hover:border-[var(--brand-strong)] hover:text-white hover:bg-black/60 md:inline-block"
           style={{ left: s.x, top: s.y }}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -147,7 +147,7 @@ export default function ServicesHero({ locale }: { locale: "uk" | "ru" }) {
       ))}
 
       {/* Головний блок */}
-      <div className="absolute inset-x-0 top-0 flex h-full flex-col items-center justify-center px-4 text-center">
+      <div className="pointer-events-none absolute inset-x-0 top-0 flex h-full flex-col items-center justify-center px-4 text-center">
         <motion.div
           className="font-mono text-[10px] uppercase tracking-[0.32em] text-[var(--brand-strong)] sm:text-[11px]"
           initial={{ opacity: 0 }}
@@ -201,7 +201,7 @@ export default function ServicesHero({ locale }: { locale: "uk" | "ru" }) {
         </motion.p>
         <motion.a
           href="#calculator"
-          className="btn btn-primary mt-6 sm:mt-8"
+          className="btn btn-primary pointer-events-auto mt-6 sm:mt-8"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
