@@ -239,7 +239,7 @@ export default async function HomePage({
       />
 
       <section className="section container-x">
-        <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.05fr]">
           <Reveal>
             <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-[var(--text-muted)]">
               <span className="text-[var(--brand-strong)]">01</span> —{" "}
@@ -277,6 +277,7 @@ export default async function HomePage({
                 label={L === "uk" ? "Отримати консультацію" : "Получить консультацию"}
                 sourcePage="home-about"
                 className="btn btn-primary mt-2 inline-flex w-full justify-center"
+                arrow={false}
               />
             </Reveal>
           </div>

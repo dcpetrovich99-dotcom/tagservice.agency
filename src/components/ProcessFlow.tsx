@@ -98,7 +98,7 @@ function Node({
     <motion.div
       whileHover={{ y: -3 }}
       transition={{ type: "spring", stiffness: 320, damping: 22 }}
-      className="group relative flex w-full items-center gap-3.5 rounded-2xl px-4 py-3.5"
+      className="group relative flex w-full items-center gap-3.5 rounded-2xl px-4 py-3.5 lg:py-2.5"
       style={{
         background: final
           ? "linear-gradient(120deg, rgba(49,168,255,0.22), rgba(118,103,255,0.16))"
@@ -142,25 +142,24 @@ function Node({
   );
 }
 
-// Вертикальний «ланцюжок» з рухомим імпульсом.
-function VChain({ h = 26 }: { h?: number }) {
+// Вертикальний «ланцюжок» з рухомим імпульсом. Висота адаптивна (нижча на
+// десктопі, щоб діаграма вміщалась в екран); анімація у відсотках, тож не
+// залежить від конкретної висоти.
+function VChain() {
   return (
     <div
-      className="relative my-1 w-[2px] overflow-visible rounded-full"
-      style={{
-        height: h,
-        background: `linear-gradient(180deg, ${STROKE_FROM}, ${STROKE_TO})`,
-      }}
+      className="relative my-1 h-6 w-[2px] overflow-visible rounded-full lg:my-0.5 lg:h-3.5"
+      style={{ background: `linear-gradient(180deg, ${STROKE_FROM}, ${STROKE_TO})` }}
       aria-hidden
     >
       <motion.span
-        className="absolute left-1/2 h-2 w-2 -translate-x-1/2 rounded-full"
+        className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 rounded-full"
         style={{
           background: "var(--brand-strong)",
           boxShadow: "0 0 10px 2px rgba(120,215,255,0.85)",
         }}
-        initial={{ top: -3, opacity: 0 }}
-        animate={{ top: [-3, h - 3], opacity: [0, 1, 1, 0] }}
+        initial={{ top: "-20%", opacity: 0 }}
+        animate={{ top: ["-20%", "100%"], opacity: [0, 1, 1, 0] }}
         transition={{ duration: 1.7, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.5 }}
       />
     </div>
@@ -174,7 +173,7 @@ function ForkChain({ merge = false }: { merge?: boolean }) {
     : ["M50 2 L50 8 C50 26 25 22 25 42", "M50 8 C50 26 75 22 75 42"];
   return (
     <svg
-      className="my-0.5 h-11 w-full"
+      className="my-0.5 h-11 w-full lg:h-7"
       viewBox="0 0 100 44"
       preserveAspectRatio="none"
       aria-hidden
@@ -231,7 +230,7 @@ function ForkCard({
     <motion.div
       whileHover={{ y: -3 }}
       transition={{ type: "spring", stiffness: 320, damping: 22 }}
-      className="flex flex-col gap-1.5 rounded-2xl px-3.5 py-3.5 text-center"
+      className="flex flex-col gap-1.5 rounded-2xl px-3.5 py-3.5 text-center lg:gap-1 lg:py-2.5"
       style={{
         background: dashed ? "rgba(124,84,236,0.10)" : GLASS,
         border: dashed
@@ -307,9 +306,9 @@ export default function ProcessFlow({ locale }: { locale: "uk" | "ru" }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.6 }}
-      className="dark-panel relative mx-auto w-full max-w-[440px] rounded-[1.9rem] p-6 sm:p-7"
+      className="dark-panel relative mx-auto w-full max-w-[440px] rounded-[1.9rem] p-6 sm:p-7 lg:max-w-none lg:p-5"
     >
-      <div className="mb-6 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.24em] text-[var(--text-muted)]">
+      <div className="mb-6 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.24em] text-[var(--text-muted)] lg:mb-4">
         <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--brand-strong)" }} />
         {T.title}
       </div>

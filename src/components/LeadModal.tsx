@@ -9,6 +9,7 @@ type Props = {
   label: string;
   sourcePage?: string;
   className?: string;
+  arrow?: boolean;
 };
 
 // Кнопка-тригер + модалка з лід-формою (QuizForm → /api/lead → Telegram).
@@ -16,6 +17,7 @@ export default function LeadModal({
   label,
   sourcePage = "home",
   className = "btn btn-primary",
+  arrow = true,
 }: Props) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -36,7 +38,8 @@ export default function LeadModal({
   return (
     <>
       <button type="button" className={className} onClick={() => setOpen(true)}>
-        {label} →
+        {label}
+        {arrow ? " →" : ""}
       </button>
 
       {mounted &&
