@@ -26,6 +26,7 @@ import Faq from "@/components/Faq";
 import QuizForm from "@/components/QuizForm";
 import Reveal from "@/components/Reveal";
 import ProcessFlow from "@/components/ProcessFlow";
+import LeadModal from "@/components/LeadModal";
 
 export const dynamic = "force-dynamic";
 
@@ -257,11 +258,28 @@ export default async function HomePage({
                   : "TAG SERVICE — tech-партнер для запуска трафика, платформ и CRM. Мы работаем на стыке performance-маркетинга, разработки, креатива и аналитики: сначала строим систему, потом заводим в нее трафик.",
               )}
             </p>
+            {/* Desktop: кнопка під текстом «хто ми» (на мобайлі ховаємо — вона під діаграмою). */}
+            <LeadModal
+              label={L === "uk" ? "Отримати консультацію" : "Получить консультацию"}
+              sourcePage="home-about"
+              className="btn btn-primary mt-8 hidden lg:inline-flex"
+            />
           </Reveal>
 
           <Reveal delay={0.1}>
             <ProcessFlow locale={L} />
           </Reveal>
+
+          {/* Mobile: кнопка одразу під діаграмою (контейнер lg:hidden, щоб на десктопі не лишати порожню комірку грід). */}
+          <div className="lg:hidden">
+            <Reveal delay={0.15}>
+              <LeadModal
+                label={L === "uk" ? "Отримати консультацію" : "Получить консультацию"}
+                sourcePage="home-about"
+                className="btn btn-primary mt-2 inline-flex w-full justify-center"
+              />
+            </Reveal>
+          </div>
         </div>
       </section>
 
