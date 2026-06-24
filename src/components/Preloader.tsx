@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import BrandMark from "./BrandMark";
 
 // Брендований прелоадер на ~2с: літачок «злітає», лого проявляється,
 // прогрес-смужка заповнюється, далі шторка їде вгору. Показується один
@@ -44,10 +43,23 @@ export default function Preloader() {
             className="flex flex-col items-center gap-5"
           >
             <motion.div
-              animate={{ y: [0, -8, 0], rotate: [0, 4, 0] }}
-              transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+              initial={{ opacity: 0, scale: 0.86 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, ease: [0.2, 0.7, 0.2, 1] }}
+              className="relative h-44 w-44 sm:h-52 sm:w-52"
             >
-              <BrandMark size={72} uniqueId="preloader" />
+              {/* Анімований неоновий літачок. Фон відео — чорний, тож
+                  mix-blend-screen робить його прозорим (лишається лише сяйво). */}
+              <video
+                className="h-full w-full object-contain"
+                style={{ mixBlendMode: "screen" }}
+                src="/brand-motion.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+                aria-hidden
+              />
             </motion.div>
 
             <div className="flex items-baseline gap-2">

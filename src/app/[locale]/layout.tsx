@@ -89,7 +89,7 @@ export async function generateMetadata({
         "max-video-preview": -1,
       },
     },
-    icons: { icon: "/icon.svg" },
+    icons: { icon: "/icon.png", apple: "/icon.png" },
   };
 }
 

@@ -163,7 +163,7 @@ export function organizationJsonLd(locale: Locale) {
         "@id": `${SITE_URL}/#organization`,
         name: SITE_NAME,
         url: SITE_URL,
-        logo: abs("/icon.svg"),
+        logo: abs("/icon.png"),
         image: OG_IMAGE,
         description: s.description,
         slogan:
