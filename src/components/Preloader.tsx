@@ -33,11 +33,15 @@ export default function Preloader() {
       {show && (
         <motion.div
           className="fixed inset-0 z-[200] flex flex-col items-center justify-center"
-          style={{ background: "transparent" }}
+          style={{ background: "#05060a" }}
           initial={{ opacity: 1 }}
           exit={{ y: "-100%" }}
           transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
         >
+          <div className="pointer-events-none absolute inset-0 -z-10">
+            <div className="absolute left-1/2 top-1/2 h-[40rem] w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(63,155,240,0.16),transparent_60%)] blur-3xl" />
+          </div>
+
           <motion.div
             initial={{ opacity: 0, y: 14, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}

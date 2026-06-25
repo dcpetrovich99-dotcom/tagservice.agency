@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
@@ -100,14 +100,7 @@ export default function ServicesMatrix({
   items: ServiceItem[];
 }) {
   const [active, setActive] = useState(0);
-  const introVideoRef = useRef<HTMLVideoElement | null>(null);
   const current = items[active] ?? items[0];
-
-  useEffect(() => {
-    if (introVideoRef.current) {
-      introVideoRef.current.playbackRate = 0.62;
-    }
-  }, []);
 
   return (
     <section className="section container-x">
@@ -123,7 +116,6 @@ export default function ServicesMatrix({
           {/* Брендоване intro-відео замість тексту-підказки. */}
           <div className="dark-panel relative mt-7 overflow-hidden rounded-2xl border border-white/10">
             <video
-              ref={introVideoRef}
               className="aspect-video w-full object-cover"
               src="/intro-banner.mp4"
               autoPlay
