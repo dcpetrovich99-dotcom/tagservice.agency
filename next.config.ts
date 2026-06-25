@@ -50,6 +50,8 @@ const nextConfig: NextConfig = {
   images: {
     // дозволяємо локальні /uploads та довільні https-зображення (URL з адмінки)
     remotePatterns: [{ protocol: "https", hostname: "**" }],
+    // дозволені рівні якості next/image (карусель віддає 95 — без сильного стиску)
+    qualities: [50, 75, 90, 95, 100],
   },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];

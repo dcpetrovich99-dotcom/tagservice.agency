@@ -15,6 +15,7 @@ type Props = {
   width?: number;
   height?: number;
   priority?: boolean;
+  quality?: number;
   className?: string;
 };
 
@@ -31,6 +32,7 @@ export default function SmartMedia({
   width,
   height,
   priority,
+  quality,
   className,
 }: Props) {
   if (isVideoUrl(src)) {
@@ -67,6 +69,7 @@ export default function SmartMedia({
       width={fill ? undefined : width}
       height={fill ? undefined : height}
       priority={priority}
+      quality={quality}
       className={className}
     />
   );

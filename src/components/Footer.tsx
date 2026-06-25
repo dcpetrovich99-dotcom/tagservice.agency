@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import BrandMark from "./BrandMark";
@@ -83,18 +84,14 @@ export default async function Footer({
           <div>
             <div className="flex items-center gap-2.5">
               <BrandMark size={28} uniqueId="footer" />
-              <span
-                className="font-mono text-base font-bold tracking-[0.04em]"
-                style={{ color: "var(--text)" }}
-              >
-                TAG SERVICE
-              </span>
-              <span
-                className="font-mono text-[10px] uppercase tracking-[0.32em]"
-                style={{ color: "var(--text-muted)" }}
-              >
-                AGENCY
-              </span>
+              {/* Напис із лого (TAG SERVICE / AGENCY під низом). */}
+              <Image
+                src="/brand-wordmark.png"
+                alt="TAG SERVICE — Agency"
+                width={150}
+                height={30}
+                className="h-auto w-[136px]"
+              />
             </div>
             <p className="text-muted mt-4 max-w-sm text-sm">
               Performance marketing + custom dev. Тільки реальні платформи,

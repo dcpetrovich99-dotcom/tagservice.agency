@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { Link, usePathname } from "@/i18n/navigation";
 import LangSwitcher from "./LangSwitcher";
 import BrandMark from "./BrandMark";
@@ -53,14 +54,15 @@ export default function Header() {
           onClick={() => setOpen(false)}
         >
           <BrandMark size={30} uniqueId="header" />
-          <span className="flex items-baseline gap-1.5">
-            <span className="font-mono text-[15px] font-bold tracking-[0.06em] text-white">
-              TAG SERVICE
-            </span>
-            <span className="hidden font-mono text-[10px] uppercase tracking-[0.32em] text-[var(--text-muted)] sm:inline">
-              AGENCY
-            </span>
-          </span>
+          {/* Напис із лого (TAG SERVICE / AGENCY під низом) — точний шрифт. */}
+          <Image
+            src="/brand-wordmark.png"
+            alt="TAG SERVICE — Agency"
+            width={150}
+            height={30}
+            priority
+            className="h-auto w-[132px]"
+          />
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">

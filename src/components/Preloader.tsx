@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 
 // Брендований прелоадер на ~2с: літачок «злітає», лого проявляється,
 // прогрес-смужка заповнюється, далі шторка їде вгору. Показується один
@@ -38,10 +39,6 @@ export default function Preloader() {
           exit={{ y: "-100%" }}
           transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
         >
-          <div className="pointer-events-none absolute inset-0 -z-10">
-            <div className="absolute left-1/2 top-1/2 h-[40rem] w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(63,155,240,0.16),transparent_60%)] blur-3xl" />
-          </div>
-
           <motion.div
             initial={{ opacity: 0, y: 14, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -75,14 +72,15 @@ export default function Preloader() {
               />
             </motion.div>
 
-            <div className="flex items-baseline gap-2">
-              <span className="font-mono text-lg font-bold tracking-[0.08em] text-white">
-                TAG SERVICE
-              </span>
-              <span className="font-mono text-[10px] uppercase tracking-[0.32em] text-[var(--text-muted)]">
-                AGENCY
-              </span>
-            </div>
+            {/* Напис із самого лого (TAG SERVICE / AGENCY під низом) — той самий шрифт і розміщення. */}
+            <Image
+              src="/brand-wordmark.png"
+              alt="TAG SERVICE — Agency"
+              width={232}
+              height={46}
+              priority
+              className="h-auto w-[210px]"
+            />
 
             <div className="mt-1 h-[3px] w-44 overflow-hidden rounded-full bg-white/10">
               <motion.div

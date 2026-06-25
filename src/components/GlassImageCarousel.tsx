@@ -72,8 +72,7 @@ function Carousel3D({
 }) {
   const CARD_W = compact ? 168 : 290;
   const CARD_H = compact ? 214 : 320;
-  const DEPTH = compact ? 8 : 18;
-  const RIM_LAYERS = compact ? 4 : 12;
+  const DEPTH = compact ? 8 : 16;
   const minRadius = compact ? 150 : 260;
   const perspective = compact ? 1050 : 1500;
 
@@ -164,22 +163,7 @@ function Carousel3D({
                 transform: `rotateY(${slideAngle}deg) translateZ(${radius}px)`,
               }}
             >
-              {Array.from({ length: RIM_LAYERS }).map((_, layer) => {
-                const z = -DEPTH / 2 + (DEPTH * layer) / (RIM_LAYERS - 1);
-                const shade = 0.55 - (layer / (RIM_LAYERS - 1)) * 0.4;
-                return (
-                  <div
-                    key={layer}
-                    className="absolute inset-0"
-                    style={{
-                      borderRadius: CARD_RADIUS,
-                      transform: `translateZ(${z}px)`,
-                      background: `linear-gradient(150deg, rgba(150,190,245,${shade}), rgba(8,14,32,0.96))`,
-                    }}
-                  />
-                );
-              })}
-
+              {/* Лицьова сторона — ціле зображення-картка. */}
               <div
                 className="absolute inset-0"
                 style={{
@@ -191,16 +175,20 @@ function Carousel3D({
                 <Face item={item} fallback={fallback} compact={compact} priority={i < 4} />
               </div>
 
+              {/* Тильна сторона — одна суцільна темна плита (без зайвих шарів,
+                  щоб не було z-fighting/мерехтіння). */}
               <div
                 className="absolute inset-0"
                 style={{
-                  transform: `rotateY(180deg) translateZ(${DEPTH / 2}px) scaleX(-1)`,
+                  transform: `rotateY(180deg) translateZ(${DEPTH / 2}px)`,
                   backfaceVisibility: "hidden",
                   WebkitBackfaceVisibility: "hidden",
+                  borderRadius: CARD_RADIUS,
+                  background:
+                    "linear-gradient(150deg, rgba(22,32,58,0.95), rgba(8,14,32,0.98))",
+                  border: "1px solid rgba(176,218,255,0.12)",
                 }}
-              >
-                <Face item={item} fallback={fallback} compact={compact} mirrored />
-              </div>
+              />
             </div>
           );
         })}
@@ -213,13 +201,11 @@ function Face({
   item,
   fallback,
   compact,
-  mirrored,
   priority,
 }: {
   item: CarouselItem;
   fallback: string;
   compact: boolean;
-  mirrored?: boolean;
   priority?: boolean;
 }) {
   return (
@@ -227,18 +213,17 @@ function Face({
       className="relative h-full w-full overflow-hidden border"
       style={{
         borderRadius: CARD_RADIUS,
-        background: compact ? "rgba(12,20,40,0.92)" : "rgba(255,255,255,0.07)",
-        // backdrop-filter лишаємо лише на десктопі — на мобайлі це й вішало GPU
-        backdropFilter: compact ? undefined : "blur(24px) saturate(155%)",
-        WebkitBackdropFilter: compact ? undefined : "blur(24px) saturate(155%)",
-        borderColor: "rgba(176,218,255,0.18)",
-        boxShadow: mirrored
-          ? "0 30px 80px -50px rgba(0,0,0,0.85)"
-          : compact
-            ? "0 18px 50px -30px rgba(49,168,255,0.5)"
-            : "0 36px 100px -45px rgba(49,168,255,0.55), inset 0 1px 0 rgba(255,255,255,0.18)",
-        filter: mirrored ? "brightness(0.42) saturate(1.35)" : "none",
-        opacity: mirrored ? 0.68 : 1,
+        // Суцільний непрозорий фон (без backdrop-filter — саме анімований blur
+        // на рухомих картках і давав мерехтіння). Зображення все одно перекриває.
+        background: "rgba(10,16,34,0.98)",
+        borderColor: "rgba(176,218,255,0.20)",
+        boxShadow: compact
+          ? "0 18px 50px -30px rgba(49,168,255,0.5)"
+          : "0 36px 100px -45px rgba(49,168,255,0.55), inset 0 1px 0 rgba(255,255,255,0.18)",
+        // стабілізуємо растеризацію шару при 3D-обертанні → менше «гри» пікселів
+        transform: "translateZ(0)",
+        backfaceVisibility: "hidden",
+        WebkitBackfaceVisibility: "hidden",
       }}
     >
       <div className="absolute inset-0">
@@ -247,7 +232,11 @@ function Face({
             src={item.imageUrl}
             alt=""
             fill
-            sizes={compact ? "170px" : "300px"}
+            // Віддаємо помітно більшу роздільність, ніж фізичний розмір картки
+            // (супер-семплінг) — текст/лого на зображеннях лишаються чіткими
+            // і не мерехтять при повороті. Якість висока, без сильного стиску.
+            sizes={compact ? "360px" : "640px"}
+            quality={95}
             priority={priority}
             className="object-cover"
           />
