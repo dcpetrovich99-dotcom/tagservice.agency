@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 // Брендований прелоадер на ~2с: літачок «злітає», лого проявляється,
@@ -8,6 +8,12 @@ import { AnimatePresence, motion } from "framer-motion";
 // раз за повне завантаження сторінки (живе в layout, монтується раз).
 export default function Preloader() {
   const [show, setShow] = useState(true);
+  const logoRef = useRef<HTMLVideoElement | null>(null);
+
+  // Пришвидшуємо анімацію лого (відео 4с → за ~2с прелоадера встигає більше).
+  useEffect(() => {
+    if (logoRef.current) logoRef.current.playbackRate = 1.7;
+  }, []);
 
   useEffect(() => {
     const t = setTimeout(() => setShow(false), 2000);
@@ -27,15 +33,11 @@ export default function Preloader() {
       {show && (
         <motion.div
           className="fixed inset-0 z-[200] flex flex-col items-center justify-center"
-          style={{ background: "#05060a" }}
+          style={{ background: "transparent" }}
           initial={{ opacity: 1 }}
           exit={{ y: "-100%" }}
           transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
         >
-          <div className="pointer-events-none absolute inset-0 -z-10">
-            <div className="absolute left-1/2 top-1/2 h-[40rem] w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(63,155,240,0.16),transparent_60%)] blur-3xl" />
-          </div>
-
           <motion.div
             initial={{ opacity: 0, y: 14, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -51,8 +53,15 @@ export default function Preloader() {
               {/* Анімований неоновий літачок. Фон відео — чорний, тож
                   mix-blend-screen робить його прозорим (лишається лише сяйво). */}
               <video
+                ref={logoRef}
                 className="h-full w-full object-contain"
-                style={{ mixBlendMode: "screen" }}
+                style={{
+                  mixBlendMode: "screen",
+                  WebkitMaskImage:
+                    "radial-gradient(circle, black 48%, rgba(0,0,0,0.72) 62%, transparent 78%)",
+                  maskImage:
+                    "radial-gradient(circle, black 48%, rgba(0,0,0,0.72) 62%, transparent 78%)",
+                }}
                 src="/brand-motion.mp4"
                 autoPlay
                 muted

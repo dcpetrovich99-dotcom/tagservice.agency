@@ -43,7 +43,7 @@ export default function Faq({
                   transition={{ duration: 0.25 }}
                   className="overflow-hidden"
                 >
-                  <p className="text-muted px-5 pb-5">{it.a}</p>
+                  <p className="text-muted whitespace-pre-line px-5 pb-5">{it.a}</p>
                 </motion.div>
               )}
             </AnimatePresence>

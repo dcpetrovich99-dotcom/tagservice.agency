@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
@@ -100,7 +100,14 @@ export default function ServicesMatrix({
   items: ServiceItem[];
 }) {
   const [active, setActive] = useState(0);
+  const introVideoRef = useRef<HTMLVideoElement | null>(null);
   const current = items[active] ?? items[0];
+
+  useEffect(() => {
+    if (introVideoRef.current) {
+      introVideoRef.current.playbackRate = 0.62;
+    }
+  }, []);
 
   return (
     <section className="section container-x">
@@ -116,6 +123,7 @@ export default function ServicesMatrix({
           {/* Брендоване intro-відео замість тексту-підказки. */}
           <div className="dark-panel relative mt-7 overflow-hidden rounded-2xl border border-white/10">
             <video
+              ref={introVideoRef}
               className="aspect-video w-full object-cover"
               src="/intro-banner.mp4"
               autoPlay
@@ -130,7 +138,7 @@ export default function ServicesMatrix({
         </div>
 
         {/* Десктоп: список з наведенням + жива панель справа. */}
-        <div className="hidden gap-6 lg:grid xl:grid-cols-[0.9fr_1.1fr]">
+        <div className="hidden gap-6 lg:grid xl:grid-cols-[1fr_1.15fr]">
           <div className="overflow-hidden rounded-[1.6rem] border border-white/10">
             {items.map((item, index) => (
               <button
@@ -139,7 +147,7 @@ export default function ServicesMatrix({
                 onMouseEnter={() => setActive(index)}
                 onFocus={() => setActive(index)}
                 onClick={() => setActive(index)}
-                className="group grid w-full grid-cols-[72px_1fr] items-center gap-4 border-b border-white/10 px-5 py-5 text-left transition-colors last:border-b-0 hover:bg-white/[0.055]"
+                className="group grid w-full grid-cols-[64px_minmax(0,1fr)] items-center gap-4 border-b border-white/10 px-5 py-5 text-left transition-colors last:border-b-0 hover:bg-white/[0.055] xl:px-6"
                 style={{
                   background:
                     index === active
@@ -153,7 +161,7 @@ export default function ServicesMatrix({
                 >
                   {item.num}
                 </span>
-                <span className="h-display text-2xl text-[var(--text)] sm:text-3xl">
+                <span className="h-display min-w-0 text-[clamp(1.35rem,1.7vw,2rem)] leading-[1.02] text-[var(--text)] break-words">
                   {item.title}
                 </span>
               </button>
@@ -174,7 +182,7 @@ export default function ServicesMatrix({
                 <span className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--text-muted)] group-open:text-[var(--brand-strong)]">
                   {item.num}
                 </span>
-                <span className="h-display flex-1 text-xl">{item.title}</span>
+                <span className="h-display min-w-0 flex-1 text-xl leading-tight break-words">{item.title}</span>
                 <span
                   className="text-lg leading-none transition-transform group-open:rotate-45"
                   style={{ color: "var(--brand-strong)" }}
