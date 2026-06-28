@@ -67,6 +67,25 @@ export default async function ContactsPage({
             <span className="font-semibold">{t("channel")}</span>
             <span style={{ color: "var(--brand-strong)" }}>Telegram →</span>
           </a>
+          <a
+            href="mailto:info@tagservice.agency"
+            className="card flex items-center justify-between p-6 transition-transform hover:-translate-y-1"
+          >
+            <span className="font-semibold">Email</span>
+            <span style={{ color: "var(--brand-strong)" }}>
+              info@tagservice.agency →
+            </span>
+          </a>
+
+          {/* Юридичні реквізити */}
+          <div className="card surface-2 p-6 text-sm leading-6 text-[var(--text-muted)]">
+            <div className="mb-2 font-mono text-[11px] uppercase tracking-[0.22em]">
+              {locale === "ru" ? "Реквизиты" : "Реквізити"}
+            </div>
+            ТОВ «ТАГ СЕРВІС»
+            <br />
+            {locale === "ru" ? "код ЕГРПОУ" : "код ЄДРПОУ"} 42042357
+          </div>
         </div>
 
         <QuizForm sourcePage="contacts" />

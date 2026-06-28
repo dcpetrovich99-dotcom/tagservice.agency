@@ -160,6 +160,16 @@ export default async function Footer({
                   Telegram · {t("channel")}
                 </a>
               </li>
+              <li>
+                <a
+                  href="mailto:info@tagservice.agency"
+                  className="inline-flex items-center gap-2 font-medium"
+                  style={{ color: "var(--brand-strong)" }}
+                >
+                  <span style={{ color: "var(--text-muted)" }}>·</span>
+                  info@tagservice.agency
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -168,7 +178,9 @@ export default async function Footer({
       {/* legal strip */}
       <div className="border-t">
         <div className="container-x flex flex-col gap-2 py-5 text-xs sm:flex-row sm:items-center sm:justify-between">
-          <span style={{ color: "var(--text-muted)" }}>{t("rights")}</span>
+          <span style={{ color: "var(--text-muted)" }}>
+            {t("rights")} · ТОВ «ТАГ СЕРВІС» · ЄДРПОУ 42042357
+          </span>
           <span
             className="font-mono uppercase tracking-[0.22em]"
             style={{ color: "var(--text-muted)" }}
